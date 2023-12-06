@@ -1,0 +1,98 @@
+#logo{
+    width: 100px;
+    height: 80px;
+}
+#topRated{
+    margin-right: 30px;
+}
+/* ---------SigIn Button Start------- */
+#registerButton{
+    background-color: tomato;
+    padding: 5px 10px 5px 10px;
+    border-radius: 25px;
+}
+
+#logInButton,#logoutButton{
+    margin-left: 15px;
+    background-color: tomato;
+    padding: 5px 10px 5px 10px;
+    border-radius: 25px;
+}
+
+#registerButton>a,#logInButton>a,#logoutButton>a{
+    font-size: 17px;
+    color: white;
+}
+
+#registerButton>a>i,#logInButton>a>i,#logoutButton>a>i{
+    padding-left: 5px;
+}
+
+#registerButton>a:hover,#logInButton>a:hover,#logoutButton>a:hover{
+    color: black;
+}
+/* ---------SigIn Button End------- */
+
+/* ---------Register Form Start------- */
+.registration-form {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-primary:hover {
+    background-color: #218838;
+    border-color: #218838;
+}
+
+#registerCancelButton,#loginCancelButton{
+    margin-left: 30px;
+    font-size: 15px;
+    border: 1px solid rgb(112, 111, 111);
+}
+
+#register,#loginButton{
+    margin-left: 10px;
+    font-size: 15px;
+}
+
+.form-label{
+    font-size: 18px;
+}
+/* ---------Register Form End------- */
+
+/* ------------Theater Start----------*/
+#theaterImage{
+    width: 350px;
+    height: 250px;
+    margin-right: 50px;
+}
+
+#viewButton{
+    font-size: 17px;
+}
+/* ------------Theater End----------*/
+
+
+.form-container {
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+#genre,#description{
+    font-size: 15px;
+}
+
+#createMovieButton,#cancelCreateMovie{
+    font-size: 17px;
+}
