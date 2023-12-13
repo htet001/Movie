@@ -11,7 +11,7 @@ class TheaterController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.theater.index');
     }
 
     /**
@@ -35,7 +35,6 @@ class TheaterController extends Controller
      */
     public function show(string $id)
     {
-        return view('theater.alltheater');
     }
 
     /**

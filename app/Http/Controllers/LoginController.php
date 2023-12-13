@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
@@ -36,6 +37,10 @@ class LoginController extends Controller
             return back()->withErrors(['password' => 'Wrong password! Try Agan'])->withInput(['email' => $request->email]);
         }
 
-        return redirect('/')->with('message', 'You are now logged in Successfully!');
+        if (Auth::check() && Auth::user()->is_admin === 1) {
+            return redirect('/admin');
+        } else {
+            return redirect('/')->with('message', 'You are now logged in Successfully!');
+        }
     }
 }

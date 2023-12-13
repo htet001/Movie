@@ -12,7 +12,13 @@ class MovieController extends Controller
      */
     public function index()
     {
-        return view('admin.movie.index');
+        $movies = Movie::select('name', 'image', 'trailer')->get();
+
+        $data = [
+            'movies' => $movies,
+        ];
+
+        return view('admin.movie.index', compact('movies'));
     }
 
     /**
@@ -28,19 +34,29 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
-        // $validatedData = $request->validate([
-        //     'name' => 'required|string',
-        //     'genre' => 'required|string',
-        //     'trailer' => 'required|url',
-        //     'directors' => 'required|string',
-        //     'actors' => 'required|string',
-        //     'releaseDate' => 'required|date',
-        //     'endDate' => 'required|date',
-        //     'description' => 'required|string',
-        // ]);
+        $ext = $request->image->getClientOriginalExtension();
+        $name = pathinfo($request->image->getClientOriginalName(), PATHINFO_FILENAME);
+        $image = uniqid() . "_$name.$ext";
+        $request->image->move(public_path() . '/uploads/', $image);
 
-        Movie::create($request->all());
-        return redirect('movie/create');
+        $ext = $request->slider_image->getClientOriginalExtension();
+        $name = pathinfo($request->slider_image->getClientOriginalName(), PATHINFO_FILENAME);
+        $slider_image = uniqid() . "_$name.$ext";
+        $request->slider_image->move(public_path() . '/uploads/', $slider_image);
+
+        Movie::create([
+            'name' => $request->get('name'),
+            'genre' => $request->get('genre'),
+            'image' => $image,
+            'trailer' => $request->get('trailer'),
+            'directors' => $request->get('directors'),
+            'actors' => $request->get('actors'),
+            'upcoming' => $request->get('upcoming'),
+            'slider_image' => $slider_image,
+            'about' => $request->get('about'),
+        ]);
+
+        return redirect('/movie/create');
     }
 
     /**
@@ -48,6 +64,8 @@ class MovieController extends Controller
      */
     public function show(string $id)
     {
+        $movies = Movie::all();
+        return view('admin/movie/detail', compact('movies'));
     }
 
     /**
@@ -55,7 +73,7 @@ class MovieController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return redirect('movie/edit');
     }
 
     /**

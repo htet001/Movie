@@ -4,7 +4,7 @@
 
 @section('content')
 
-@if(session('register_success'))
+<!-- @if(session('register_success'))
 <div id="alert" class="alert-container text-center">
     {{ session('register_success') }}
 </div>
@@ -18,11 +18,11 @@
         document.getElementById('alert').classList.add('alert-show');
     });
 </script>
-@endif
+@endif -->
 
 
 <form method="post" action="/login">
-    <div class="container-fluid" style="margin-top: 120px;">
+    <div class="container-fluid mb-5" style="margin-top: 20px;">
         <div class="row">
             <div class="col-md-6 col-sm-12 mx-auto">
                 <div class="registration-form" style="margin: 0px 20px 0px 20px;">

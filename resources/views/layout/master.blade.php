@@ -5,14 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css')}}">
+    <link rel="stylesheet"
+        href="{{asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css')}}">
+    <link href="{{asset('//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/custom.css')}}">
 
 
-    <link rel='dns-prefetch' href='http://fonts.googleapis.com/' />
-    <link rel='dns-prefetch' href='http://s.w.org/' />
+    <link rel='dns-prefetch' href="{{asset('http://fonts.googleapis.com/')}}" />
+    <link rel='dns-prefetch' href="{{asset('http://s.w.org/')}}" />
     <link rel="alternate" type="application/rss+xml" title="Elementor Movie News &raquo; Feed"
         href="{{asset('feed/index.html')}}" />
     <link rel="alternate" type="application/rss+xml" title="Elementor Movie News &raquo; Comments Feed"
@@ -383,25 +384,26 @@
     }
     </style>
     <link rel='stylesheet' id='csf-google-web-fonts-css'
-        href='http://fonts.googleapis.com/css?family=Roboto%20Condensed:400,700&amp;display=swap' type='text/css'
-        media='all' />
-    <link rel='stylesheet' id='google-fonts-1-css'
-        href='https://fonts.googleapis.com/css?family=Roboto%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CRoboto+Slab%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&amp;display=auto&amp;ver=5.9.8'
+        href="{{asset('http://fonts.googleapis.com/css?family=Roboto%20Condensed:400,700&amp;display=swap')}}"
         type='text/css' media='all' />
-    <script type='text/javascript' src='wp-includes/js/jquery/jquery.minaf6c.js?ver=3.6.0' id='jquery-core-js'></script>
-    <script type='text/javascript' src='wp-includes/js/jquery/jquery-migrate.mind617.js?ver=3.3.2'
+    <link rel='stylesheet' id='google-fonts-1-css'
+        href="{{asset('https://fonts.googleapis.com/css?family=Roboto%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CRoboto+Slab%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&amp;display=auto&amp;ver=5.9.8')}}"
+        type='text/css' media='all' />
+    <script type='text/javascript' src="{{asset('wp-includes/js/jquery/jquery.minaf6c.js?ver=3.6.0')}}"
+        id='jquery-core-js'></script>
+    <script type='text/javascript' src="{{asset('wp-includes/js/jquery/jquery-migrate.mind617.js?ver=3.3.2')}}"
         id='jquery-migrate-js'></script>
-    <link rel="https://api.w.org/" href="wp-json/index.html" />
-    <link rel="alternate" type="application/json" href="wp-json/wp/v2/pages/84.json" />
-    <link rel="EditURI" type="application/rsd+xml" title="RSD" href="xmlrpc0db0.php?rsd" />
-    <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="wp-includes/wlwmanifest.xml" />
+    <link rel="https://api.w.org/" href="{{asset('wp-json/index.html')}}" />
+    <link rel="alternate" type="application/json" href="{{asset('wp-json/wp/v2/pages/84.json')}}" />
+    <link rel="EditURI" type="application/rsd+xml" title="RSD" href="{{asset('xmlrpc0db0.php?rsd')}}" />
+    <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="{{asset('wp-includes/wlwmanifest.xml')}}" />
     <meta name="generator" content="WordPress 5.9.8" />
-    <link rel="canonical" href="index.html" />
-    <link rel='shortlink' href='index.html' />
+    <link rel="canonical" href="{{asset('index.html')}}" />
+    <link rel='shortlink' href="{{asset('index.html')}}" />
     <link rel="alternate" type="application/json+oembed"
-        href="wp-json/oembed/1.0/embedc340.json?url=http%3A%2F%2Fdemo.amytheme.com%2Fmovie%2Fdemo%2Felementor-movie-news%2F" />
+        href="{{asset('wp-json/oembed/1.0/embedc340.json?url=http%3A%2F%2Fdemo.amytheme.com%2Fmovie%2Fdemo%2Felementor-movie-news%2F')}}" />
     <link rel="alternate" type="text/xml+oembed"
-        href="wp-json/oembed/1.0/embed0ee4?url=http%3A%2F%2Fdemo.amytheme.com%2Fmovie%2Fdemo%2Felementor-movie-news%2F&amp;format=xml" />
+        href="{{asset('wp-json/oembed/1.0/embed0ee4?url=http%3A%2F%2Fdemo.amytheme.com%2Fmovie%2Fdemo%2Felementor-movie-news%2F&amp;format=xml')}}" />
     <style type="text/css">
     body {
         font-family: "Roboto Condensed";
@@ -464,8 +466,8 @@
     @include('layout.nav')
     @yield('content')
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{asset('https://code.jquery.com/jquery-3.7.1.min.js')}}"></script>
+    <script src="{{asset('https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js')}}"></script>
 
     <style>
     .wp-container-1 .alignleft {
@@ -489,21 +491,28 @@
         margin-left: 2em;
     }
     </style>
-    <script type='text/javascript' src='wp-includes/js/jquery/ui/core.min0028.js?ver=1.13.1' id='jquery-ui-core-js'>
+    <script type='text/javascript' src="{{asset('wp-includes/js/jquery/ui/core.min0028.js?ver=1.13.1')}}"
+        id='jquery-ui-core-js'>
     </script>
-    <script type='text/javascript' src='wp-content/themes/amy-movie/js/vendor/slick.minaff7.js?ver=1.6.0' id='slick-js'>
+    <script type='text/javascript' src="{{asset('wp-content/themes/amy-movie/js/vendor/slick.minaff7.js?ver=1.6.0')}}"
+        id='slick-js'>
     </script>
-    <script type='text/javascript' src='wp-content/themes/amy-movie/js/vendor/isotope.pkgd41fe.js?ver=3.0.1'
-        id='isotope-pkd-js'></script>
-    <script type='text/javascript' src='wp-content/themes/amy-movie/js/vendor/masonry-horizontal001e.js?ver=2.0.0'
+    <script type='text/javascript'
+        src="{{asset('wp-content/themes/amy-movie/js/vendor/isotope.pkgd41fe.js?ver=3.0.1')}}" id='isotope-pkd-js'>
+    </script>
+    <script type='text/javascript'
+        src="{{asset('wp-content/themes/amy-movie/js/vendor/masonry-horizontal001e.js?ver=2.0.0')}}"
         id='masonry-horizontal-js'></script>
-    <script type='text/javascript' src='wp-content/themes/amy-movie/js/vendor/kinetic7406.js?ver=2.0.1' id='kinetic-js'>
+    <script type='text/javascript' src="{{asset('wp-content/themes/amy-movie/js/vendor/kinetic7406.js?ver=2.0.1')}}"
+        id='kinetic-js'>
     </script>
-    <script type='text/javascript' src='wp-content/themes/amy-movie/js/vendor/smoothdivscroll4e44.js?ver=1.3'
-        id='smooth-scroll-js'></script>
-    <script type='text/javascript' src='wp-content/themes/amy-movie/js/vendor/jquery.mousewheel.min2d73.js?ver=3.1.11'
+    <script type='text/javascript'
+        src="{{asset('wp-content/themes/amy-movie/js/vendor/smoothdivscroll4e44.js?ver=1.3')}}" id='smooth-scroll-js'>
+    </script>
+    <script type='text/javascript'
+        src="{{asset('wp-content/themes/amy-movie/js/vendor/jquery.mousewheel.min2d73.js?ver=3.1.11')}}"
         id='mousewheel-js'></script>
-    <script type='text/javascript' src='wp-includes/js/jquery/ui/datepicker.min0028.js?ver=1.13.1'
+    <script type='text/javascript' src="{{asset('wp-includes/js/jquery/ui/datepicker.min0028.js?ver=1.13.1')}}"
         id='jquery-ui-datepicker-js'></script>
     <script type='text/javascript' id='jquery-ui-datepicker-js-after'>
     jQuery(function(jQuery) {
@@ -527,23 +536,30 @@
         });
     });
     </script>
-    <script type='text/javascript' src='wp-content/themes/amy-movie/js/vendor/jquery.fancyboxf8ee.js?ver=3.5.7'
-        id='fancybox-js'></script>
-    <script type='text/javascript' src='wp-content/themes/amy-movie/js/vendor/bootstrap-tabe485.js?ver=3.3.6'
-        id='bootstrap-tab-js'></script>
-    <script type='text/javascript' src='wp-includes/js/imagesloaded.mineda1.js?ver=4.1.4' id='imagesloaded-js'></script>
-    <script type='text/javascript' src='wp-content/themes/amy-movie/js/vendor/tooltipster.bundle8a54.js?ver=1.0.0'
+    <script type='text/javascript'
+        src="{{asset('wp-content/themes/amy-movie/js/vendor/jquery.fancyboxf8ee.js?ver=3.5.7')}}" id='fancybox-js'>
+    </script>
+    <script type='text/javascript'
+        src="{{asset('wp-content/themes/amy-movie/js/vendor/bootstrap-tabe485.js?ver=3.3.6')}}" id='bootstrap-tab-js'>
+    </script>
+    <script type='text/javascript' src="{{asset('wp-includes/js/imagesloaded.mineda1.js?ver=4.1.4')}}"
+        id='imagesloaded-js'></script>
+    <script type='text/javascript'
+        src="{{asset('wp-content/themes/amy-movie/js/vendor/tooltipster.bundle8a54.js?ver=1.0.0')}}"
         id='tooltipster-js'></script>
     <script type='text/javascript'
-        src='wp-content/themes/amy-movie/js/vendor/jquery.waterwheelCarousela1ec.js?ver=2.3.0'
+        src="{{asset('wp-content/themes/amy-movie/js/vendor/jquery.waterwheelCarousela1ec.js?ver=2.3.0')}}"
         id='waterwheelCarousel-js'></script>
-    <script type='text/javascript' src='wp-content/themes/amy-movie/js/vendor/TweenMax.min24fc.js?ver=1.15.1'
-        id='TweenMax-js'></script>
-    <script type='text/javascript' src='wp-content/themes/amy-movie/js/vendor/jquery.mCustomScrollbarc6bd.js?ver=3.1.5'
-        id='mCustomScrollbar-js'></script>
-    <script type='text/javascript' src='wp-content/themes/amy-movie/js/vendor/plyr8a54.js?ver=1.0.0' id='plyr-js'>
+    <script type='text/javascript'
+        src="{{asset('wp-content/themes/amy-movie/js/vendor/TweenMax.min24fc.js?ver=1.15.1')}}" id='TweenMax-js'>
     </script>
-    <script type='text/javascript' src='wp-content/themes/amy-movie/js/vendor/reflectiona4e6.js?ver=1.11.0'
+    <script type='text/javascript'
+        src="{{asset('wp-content/themes/amy-movie/js/vendor/jquery.mCustomScrollbarc6bd.js?ver=3.1.5')}}"
+        id='mCustomScrollbar-js'></script>
+    <script type='text/javascript' src="{{asset('wp-content/themes/amy-movie/js/vendor/plyr8a54.js?ver=1.0.0')}}"
+        id='plyr-js'>
+    </script>
+    <script type='text/javascript' src="{{asset('wp-content/themes/amy-movie/js/vendor/reflectiona4e6.js?ver=1.11.0')}}"
         id='reflection-js'></script>
     <script type='text/javascript' id='amy-movie-script-js-extra'>
     /* <![CDATA[ */
@@ -563,14 +579,16 @@
     };
     /* ]]> */
     </script>
-    <script type='text/javascript' src='wp-content/themes/amy-movie/js/script8a54.js?ver=1.0.0'
+    <script type='text/javascript' src="{{asset('wp-content/themes/amy-movie/js/script8a54.js?ver=1.0.0')}}"
         id='amy-movie-script-js'></script>
-    <script type='text/javascript' src='wp-content/plugins/elementor/assets/js/webpack.runtime.min3ab2.js?ver=3.6.5'
+    <script type='text/javascript'
+        src="{{asset('wp-content/plugins/elementor/assets/js/webpack.runtime.min3ab2.js?ver=3.6.5')}}"
         id='elementor-webpack-runtime-js'></script>
-    <script type='text/javascript' src='wp-content/plugins/elementor/assets/js/frontend-modules.min3ab2.js?ver=3.6.5'
+    <script type='text/javascript'
+        src="{{asset('wp-content/plugins/elementor/assets/js/frontend-modules.min3ab2.js?ver=3.6.5')}}"
         id='elementor-frontend-modules-js'></script>
     <script type='text/javascript'
-        src='wp-content/plugins/elementor/assets/lib/waypoints/waypoints.min05da.js?ver=4.0.2'
+        src="{{asset('wp-content/plugins/elementor/assets/lib/waypoints/waypoints.min05da.js?ver=4.0.2')}}"
         id='elementor-waypoints-js'></script>
     <script type='text/javascript' id='elementor-frontend-js-before'>
     var elementorFrontendConfig = {
@@ -688,9 +706,15 @@
         }
     };
     </script>
-    <script type='text/javascript' src='wp-content/plugins/elementor/assets/js/frontend.min3ab2.js?ver=3.6.5'
+    <script type='text/javascript'
+        src="{{asset('wp-content/plugins/elementor/assets/js/frontend.min3ab2.js?ver=3.6.5')}}"
         id='elementor-frontend-js'></script>
+    <script src="{{asset('custom.js')}}"></script>
+    <script src="{{asset('adminjs')}}"></script>
 
 </body>
+<footer>
+    @include('layout.footer')
+</footer>
 
 </html>

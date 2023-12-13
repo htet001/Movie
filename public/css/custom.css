@@ -31,6 +31,23 @@
 #registerButton>a:hover,#logInButton>a:hover,#logoutButton>a:hover{
     color: black;
 }
+
+#userProfile{
+    margin-left: 15px;
+    background-color: tomato;
+    border-radius: 25px;
+    padding: 5px 10px 5px 10px;
+    font-size: 17px;
+    color: white;
+}
+
+#userProfile>i{
+    padding-left: 5px;
+}
+
+#userProfile:hover{
+    color: black;
+}
 /* ---------SigIn Button End------- */
 
 /* ---------Register Form Start------- */
@@ -69,8 +86,8 @@
 
 /* ------------Theater Start----------*/
 #theaterImage{
-    width: 350px;
-    height: 250px;
+    width: 250px;
+    height: 150px;
     margin-right: 50px;
 }
 
@@ -80,7 +97,7 @@
 /* ------------Theater End----------*/
 
 
-.form-container {
+.form-container{
     max-width: 800px;
     margin: 50px auto;
     background-color: #fff;
@@ -96,3 +113,237 @@
 #createMovieButton,#cancelCreateMovie{
     font-size: 17px;
 }
+
+.book_button {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 8px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    background-color: tomato;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  }
+  
+  .book_button:hover {
+    background-color: orangered;
+    color: black;
+  }
+
+/* User Profile Start */
+#profile{
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+#profileImage{
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    object-fit: cover;
+    border: 5px solid #007bff;
+}
+
+.card-header{
+    justify-content: center;
+}
+
+#updateProfile{
+    background-color: #007bff;
+    border: none;
+    padding: 5px 10px 5px 10px;
+    margin-top: 20px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+}
+
+#file{
+    display: none;
+}
+
+#profileLabel{
+    margin-bottom: 0px;
+}
+
+#profileData{
+    justify-content: center;
+}
+
+.profileData01,.profileData02{
+    text-align: left;
+}
+
+.profileData02{
+    padding-left: 40px;
+}
+
+#editPen{
+    padding-left: 20px;
+}
+/* User Profile End */
+
+/* Booking Start */
+#booking{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.col-md-6 {
+    width: 100%;
+}
+
+form{
+    padding: 30px;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+input{
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#bookNow {
+    background-color: #f33f3f;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #d33d3d;
+}
+/* Booking End */
+
+
+/* Styles for the categories container
+#categoriesContainer {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100%;
+    background-color: #f4f4f4;
+    transition: right 0.3s ease-in-out;
+}
+
+.hidden {
+    display: none;
+}
+
+#userButton {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+} */
+
+
+/* Payment Start */
+#payment{
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    width: 40%;
+    margin: auto;
+}
+.pay-container {
+    text-align: center;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+}
+
+.plan-details {
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #007bff;
+}
+
+h3 {
+    color: #6c757d;
+}
+
+h1 {
+    color: #343a40;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+button.pay-button {
+    background-color: #28a745;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.pay-button:hover {
+    background-color: #218838;
+}
+
+/* Payment end */
+
+#category{
+    text-align: left;
+    padding-left: 50px;
+    list-style: none;
+    font-size: 20px;
+}
+
+#category>li{
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+#profileImageSmall{
+    margin: auto;
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    object-fit: cover;
+    border: 5px solid #007bff;
+}
+
