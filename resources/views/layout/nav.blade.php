@@ -22,20 +22,16 @@
                     <nav id="amy-site-nav" class="amy-site-navigation amy-primary-navigation">
                         <div class="menu-mainnav-container">
                             <ul id="menu-mainnav" class="nav-menu">
-                                <li id="menu-item-443"
-                                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-443">
+                                <li id="menu-item-443" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-443">
                                     <a href="{{url('/')}}">Home</a>
                                 </li>
-                                <li id="menu-item-443"
-                                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-443">
+                                <li id="menu-item-443" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-443">
                                     <a href="{{url('/movie')}}">Movie</a>
                                 </li>
-                                <li id="menu-item-446"
-                                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-446">
+                                <li id="menu-item-446" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-446">
                                     <a href="{{url('/theater')}}">Theater</a>
                                 </li>
-                                <li id="menu-item-305"
-                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-305">
+                                <li id="menu-item-305" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-305">
                                     <a href="top-rated/index.html" id="topRated">Top rated</a>
                                 </li>
                             </ul>
@@ -43,21 +39,16 @@
                     </nav>
                 </div>
                 @if(auth()->check())
-                <!-- <div id="logoutButton">
-                    <a href="{{ url('logout') }}">Logout<i class="fa-solid fa-right-from-bracket"></i></a>
-                </div> -->
                 <div>
-                    <button class="btn" id="userProfile" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
-                        aria-controls="offcanvasScrolling">User<i class="fa-solid fa-user"></i></button>
+                    <button class="btn" id="userProfile" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
+                        <i class="fa-solid fa-user"><span style="padding-left: 5px;font-size:15px;font-family:lato;">{{auth()->user()->name}}</span></i></button>
 
-                    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
-                        id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+                    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
                         <h3 class="text-center">Profile</h3>
 
                         <div class="offcanvas-header">
                             <img src="{{asset('images/profile.jpg')}}" alt="profile image" id="profileImageSmall">
-                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
-                                aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div>
                             <h4 class="text-center">Name</h4>

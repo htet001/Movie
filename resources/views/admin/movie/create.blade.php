@@ -19,10 +19,9 @@
                             <div class="mb-3">
                                 <label for="movieType" class="form-label">Genre</label>
                                 <select class="form-select" id="genre" name="genre" required>
-                                    <option value="action">Action</option>
-                                    <option value="adventure">Adventure</option>
-                                    <option value="comedy">Comedy</option>
-                                    <option value="crime">Crime</option>
+                                    @foreach($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -44,8 +43,8 @@
                         <input type="text" class="form-control" id="actors" name="actors" required>
                     </div>
                     <div class="mb-3 d-flex align-items-center">
-                        <label for="upcoming" class="form-label">Upcoming</label>
-                        <input type="checkbox" id="upcoming" name="upcoming">
+                        <input type="checkbox" id="upcoming" name="upcoming" style="width: 3%;margin-right:20px;">
+                        <label for="upcoming" class="form-label" style="padding-top: 8px;">Upcoming</label>
                     </div>
                     <div class="mb-3">
                         <label for="image" class="form-label">Slider Image</label>

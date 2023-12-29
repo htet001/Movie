@@ -20,9 +20,8 @@ return new class extends Migration
             $table->string('trailer');
             $table->string('directors');
             $table->string('actors');
-            $table->boolean('upcoming')->default('0');
             $table->string('slider_image');
-            $table->string('about');
+            $table->text('about')->default('');
         });
     }
 

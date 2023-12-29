@@ -1,10 +1,17 @@
 @extends('layout.master')
 
-@section('title','Login Page')
+@section('title','All Theater')
 
 @section('content')
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Theater List</h1>
+<style>
+    #theater_container {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        transition: box-shadow 0.3s ease-in-out;
+    }
+</style>
+<div class="container my-5" id="theater_container">
+    <h1 class="text-center">Theater List</h1>
 
     <div class="card mb-3">
         <div class="card-body">

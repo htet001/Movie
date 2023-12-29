@@ -1,8 +1,7 @@
 @extends('layout.master')
-
 @section('title','Register Page')
-
 @section('content')
+
 <form method="post" action="/register">
     <div class="container-fluid mt-5 mb-5">
         <div class="row">
@@ -56,4 +55,5 @@
         </div>
     </div>
 </form>
+
 @endsection

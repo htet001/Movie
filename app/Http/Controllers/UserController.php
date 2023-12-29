@@ -2,63 +2,72 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginFormRequest;
+use App\Http\Requests\RegisterFormRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         return view('userPage');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function loginShow()
     {
-        //
+        return view('auth.login');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function login(LoginFormRequest $request)
     {
-        //
+        $credentials = $request->only('email', 'password');
+
+        if (auth()->attempt($credentials)) {
+            $request->session()->regenerate();
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+        if (empty($user)) {
+            return back()->withErrors(['email' => 'Invalid credentials'])->withInput(['email' => $request->email]);
+        }
+
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->withErrors(['password' => 'Wrong password! Try Agan'])->withInput(['email' => $request->email]);
+        }
+
+        return redirect('/')->with('message', 'You are now logged in Successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function showRegister()
     {
-        //
+        return view('auth.register');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function register(RegisterFormRequest $request)
     {
-        //
+        $formField = $request->validate([
+            'name' => 'required',
+            'email' => 'required', 'email', Rule::unique('users', 'email'),
+            'phone' => 'required|numeric|digits:11',
+            'password' => ['required', 'string', 'min:3', 'confirmed'],
+        ]);
+        $formField['password'] = bcrypt($formField['password']);
+        $user = User::create($formField);
+        auth()->login($user);
+        return redirect('login')->with('register_success', 'Register Successfully! Please Login');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function logout(Request $request)
     {
-        //
-    }
+        auth()->logout();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 }

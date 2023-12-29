@@ -1,7 +1,5 @@
 @extends('layout.master')
-
 @section('title','Login Page')
-
 @section('content')
 
 <!-- @if(session('register_success'))
@@ -19,7 +17,6 @@
     });
 </script>
 @endif -->
-
 
 <form method="post" action="/login">
     <div class="container-fluid mb-5" style="margin-top: 20px;">
@@ -52,4 +49,5 @@
         </div>
     </div>
 </form>
+
 @endsection
