@@ -113,7 +113,7 @@
     margin-right: 18px;
 }
 
-.seat:nth-last-of-type(2) {
+.seat:nth-last-of-type(4) {
     margin-left: 18px;
 }
 
@@ -175,6 +175,22 @@ p.text span {
 
 .credits a {
     color: #fff;
+}
+
+.dateclass {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.date-range {
+    align-items: center;
+    margin-top: 5px;
+}
+
+.dateItem {
+    margin-right: 2px !important;
 }
 </style>
 
@@ -323,55 +339,34 @@ container.addEventListener('click', e => {
             <div class="row">
                 <ul style="display: flex;" id="dateList">
                     <!-- Add more date items as needed -->
-                    <li onclick="selectDate(this)">
-                        <div class="date">
-                            <span class="dateItem">MON</span>
-                            <span class="dateItem">21</span>
-                            <span class="dateItem">DEC</span>
+                    @foreach ($dateRanges as $dateRange)
+                    <ul class="dateclass">
+                        @foreach ($dateRange as $date)
+                        <li onclick="selectDate(this)">
+                            <div class="date">
+                                <span class="dateItem">{{ $date->format('D') }}</span>
+                                <span class="dateItem">{{ $date->format('d') }}</span>
+                                <span class="dateItem">{{ $date->format('M') }}</span>
+                            </div>
+                        </li>
+                        @endforeach
+                        @php
+                        $dateArray = iterator_to_array($dateRange);
+                        @endphp
+                        @if (count($dateArray) > 0)
+                        <div class="date-range">
+                            <span class="dateItem">{{ reset($dateArray)->format('D') }}</span>
+                            <span class="dateItem">{{ reset($dateArray)->format('d') }}</span>
+                            <span class="dateItem">{{ reset($dateArray)->format('M') }}</span>
+                            <span class="dateItem">-</span>
+                            <span class="dateItem">{{ end($dateArray)->format('D') }}</span>
+                            <span class="dateItem">{{ end($dateArray)->format('d') }}</span>
+                            <span class="dateItem">{{ end($dateArray)->format('M') }}</span>
                         </div>
-                    </li>
-                    <li onclick="selectDate(this)">
-                        <div class="date">
-                            <span class="dateItem">TUE</span>
-                            <span class="dateItem">22</span>
-                            <span class="dateItem">DEC</span>
-                        </div>
-                    </li>
-                    <li onclick="selectDate(this)">
-                        <div class="date">
-                            <span class="dateItem">WED</span>
-                            <span class="dateItem">23</span>
-                            <span class="dateItem">DEC</span>
-                        </div>
-                    </li>
-                    <li onclick="selectDate(this)">
-                        <div class="date">
-                            <span class="dateItem">THU</span>
-                            <span class="dateItem">24</span>
-                            <span class="dateItem">DEC</span>
-                        </div>
-                    </li>
-                    <li onclick="selectDate(this)">
-                        <div class="date">
-                            <span class="dateItem">FRI</span>
-                            <span class="dateItem">25</span>
-                            <span class="dateItem">DEC</span>
-                        </div>
-                    </li>
-                    <li onclick="selectDate(this)">
-                        <div class="date">
-                            <span class="dateItem">SAT</span>
-                            <span class="dateItem">26</span>
-                            <span class="dateItem">DEC</span>
-                        </div>
-                    </li>
-                    <li onclick="selectDate(this)">
-                        <div class="date">
-                            <span class="dateItem">SUN</span>
-                            <span class="dateItem">27</span>
-                            <span class="dateItem">DEC</span>
-                        </div>
-                    </li>
+                        @endif
+                    </ul>
+                    @endforeach
+
                 </ul>
             </div>
         </div>
@@ -457,6 +452,8 @@ container.addEventListener('click', e => {
             <div class="seat">A6</div>
             <div class="seat">A7</div>
             <div class="seat">A8</div>
+            <div class="seat">A9</div>
+            <div class="seat">A10</div>
         </div>
         <div class="row">
             <div class="seat">B1</div>
@@ -467,6 +464,8 @@ container.addEventListener('click', e => {
             <div class="seat">B6</div>
             <div class="seat">B7</div>
             <div class="seat">B8</div>
+            <div class="seat">B9</div>
+            <div class="seat">B10</div>
         </div>
         <div class="row">
             <div class="seat">C1</div>
@@ -477,6 +476,8 @@ container.addEventListener('click', e => {
             <div class="seat">C6</div>
             <div class="seat occupied">C7</div>
             <div class="seat occupied">C8</div>
+            <div class="seat">C9</div>
+            <div class="seat">C10</div>
         </div>
         <div class="row">
             <div class="seat">D1</div>
@@ -487,6 +488,8 @@ container.addEventListener('click', e => {
             <div class="seat">D6</div>
             <div class="seat">D7</div>
             <div class="seat">D8</div>
+            <div class="seat">D9</div>
+            <div class="seat">D10</div>
         </div>
         <div class="row">
             <div class="seat">E1</div>
@@ -497,6 +500,8 @@ container.addEventListener('click', e => {
             <div class="seat">E6</div>
             <div class="seat">E7</div>
             <div class="seat">E8</div>
+            <div class="seat">E9</div>
+            <div class="seat">E10</div>
         </div>
         <div class="row">
             <div class="seat">F1</div>
@@ -507,6 +512,15 @@ container.addEventListener('click', e => {
             <div class="seat occupied">F6</div>
             <div class="seat occupied">F7</div>
             <div class="seat">F8</div>
+            <div class="seat">F9</div>
+            <div class="seat">F10</div>
+        </div>
+        <div class="row">
+            <div class="seat" style="width: 100px;">G1</div>
+            <div class="seat" style="width: 100px;margin-right:5px;">G2</div>
+            <div class="seat occupied" style="width: 100px;margin-right:18px;">G3</div>
+            <div class="seat occupied" style="width: 100px;">G4</div>
+            <div class="seat" style="width: 100px;">G5</div>
         </div>
 
         <p class="text">
@@ -515,7 +529,6 @@ container.addEventListener('click', e => {
         <button class="mb-5" type="submit" id="book"><a href="{{url('/booking')}}">Submit</a></button>
     </div>
 </div>
-
 <!-- END SEAT -->
 
 

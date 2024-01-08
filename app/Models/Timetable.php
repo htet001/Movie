@@ -18,6 +18,11 @@ class Timetable extends Model
         'time'
     ];
 
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
+    ];
+
     public function movie()
     {
         return $this->belongsTo(Movie::class);
@@ -25,6 +30,11 @@ class Timetable extends Model
 
     public function room()
     {
-        return $this->belongsTo(Room::class);
+        return $this->belongsTo(Room::class, 'room_id');
+    }
+
+    public function cinema()
+    {
+        return $this->belongsTo(Cinema::class, 'cinema_id');
     }
 }

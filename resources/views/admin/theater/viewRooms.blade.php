@@ -1,5 +1,5 @@
 @extends('admin.adminLayout.adminMaster')
-@section('title','View Cinemas')
+@section('title','View Rooms')
 @section('content')
 <style>
     body {
@@ -43,7 +43,7 @@
         margin-left: 10px;
     }
 </style>
-<h2>{{ $theaterWithCinemas->name }} Cinemas</h2>
+<h2>{{ $rooms->name }}'s Rooms</h2>
 <table>
     @if(session('message'))
     <div class="alert alert-success">
@@ -69,7 +69,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($theaterWithCinemas->cinemas as $cinema)
+        @foreach ($rooms->rooms as $cinema)
         <tr>
             <td>{{$cinema->id}}</td>
             <td>{{$cinema->name}}</td>

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>TIme Table</title>
+    <title>TIme Table Edit</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -45,8 +45,8 @@
                     </div>
                     @endif
 
-                    <h2 class="text-center">Time Table</h2>
-                    <form method="post" action="">
+                    <h2 class="text-center">Time Table Edit</h2>
+                    <form method="post" action="{{ route('timetable.update', ['id' => $timetable->id]) }}">
                         @csrf
                         <div class="mb-3">
                             <label for="movie_id" class="form-label">Movie</label>
@@ -56,7 +56,9 @@
                         <div class="mb-3">
                             <label for="room_id" class="form-label">Select Room</label>
                             <select class="form-control" id="room_id" name="room_id" required>
-
+                                @foreach($rooms as $room)
+                                <option value="{{ $room->id }}">{{ $room->name }}</option>
+                                @endforeach
                             </select>
                         </div>
 
@@ -64,21 +66,25 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="start_date" class="form-label">Start Date</label>
-                                    <input type="date" class="form-control" id="start_date" name="start_date" required>
+                                    <input type="date" class="form-control" id="start_date" name="start_date" value="{{$timetable->start_date}}" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="end_date" class="form-label">End Date</label>
-                                    <input type="date" class="form-control" id="end_date" name="end_date" required>
+                                    <input type="date" class="form-control" id="end_date" name="end_date" value="{{$timetable->end_date}}" required>
                                 </div>
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label>Time</label>
-                            <input type="text" name="time[]" id="time" class="form-control" />
+                            @foreach(unserialize($timetable->time) as $time)
+                            <input type="text" name="time[]" id="time" value="{{ $time }}" class="form-control" />
+                            @endforeach
                         </div>
+
                         <div class="form-group">
                             <input type="submit" name="submit" id="submit" class="btn btn-info" value="Submit" />
                         </div>
@@ -95,7 +101,9 @@
     $(document).ready(function() {
         $('#time').tokenfield({
             autocomplete: {
-                source: ['9:00 AM', '10:00AM', '11:00AM', '12:00PM', '1:00PM', '2:00PM', '3:00PM', '4:00PM',
+                source: ['8:00 AM', '9:00 AM', '10:00AM', '11:00AM', '12:00PM', '1:00PM', '2:00PM',
+                    '3:00PM',
+                    '4:00PM',
                     '5:00PM'
                 ],
                 delay: 100

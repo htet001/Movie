@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
+use App\Models\Room;
 use App\Models\Movie;
 use App\Models\Cinema;
 use App\Models\Timetable;
@@ -14,11 +16,10 @@ class TimetableController extends Controller
 {
     public function showtime(Request $request, $id)
     {
-
         $movie = Movie::findOrFail($id);
-        $cinemas = Cinema::select('id', 'name')->get();
+        $rooms = Room::select('id', 'name')->get();
 
-        return view('admin.time.timetable', compact('cinemas', 'movie'));
+        return view('admin.time.timetable', compact('rooms', 'movie'));
     }
 
     public function create(Request $request, $movieId)
@@ -47,7 +48,10 @@ class TimetableController extends Controller
 
     public function timetablelist()
     {
-        $timetables = Timetable::select('id', 'movie_id', 'room_id', 'start_date', 'end_date', 'time')->orderBy('id', 'desc')->get();
+        $timetables = Timetable::with('room.cinema')
+            ->select('id', 'movie_id', 'room_id', 'start_date', 'end_date', 'time')
+            ->orderBy('id', 'desc')
+            ->get();
 
         return view('admin.time.timetablelist', compact('timetables'));
     }
@@ -55,8 +59,60 @@ class TimetableController extends Controller
     public function edit(string $id)
     {
         $timetable = Timetable::findOrFail($id);
-        $movie = Movie::findOrFail($id);
-        $cinemas = Cinema::select('id', 'name')->get();
-        return view('admin.time.timetableEdit', compact('cinemas', 'movie', 'timetable'));
+        $movie = Movie::findOrFail($timetable->movie_id);
+        $rooms = Room::select('id', 'name')->get();
+        return view('admin.time.timetableEdit', compact('rooms', 'movie', 'timetable'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'room_id' => 'required',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'time' => 'required|array',
+            'time.*' => 'required', // Adjust the format based on your needs
+        ]);
+
+        $timetable = Timetable::findOrFail($id);
+
+        $timetable->room_id = $request->input('room_id');
+        $timetable->start_date = $request->input('start_date');
+        $timetable->end_date = $request->input('end_date');
+        $timetable->time = serialize($request->input('time'));
+        $timetable->save();
+
+        return redirect()->route('timetablelist')->with('success', 'Timetable updated successfully');
+    }
+
+    public function delete($id)
+    {
+        $timetable = Timetable::findOrFail($id);
+        $timetable->delete();
+        return redirect()->route('timetablelist')->with('success', 'Timetable deleted successfully');
+    }
+
+    public function choosingDateTime(string $movieId, string $roomId)
+    {
+        $movie = Movie::findOrFail($movieId);
+        $room = Room::findOrFail($roomId);
+
+        // Use where clauses separately for room_id and movie_id
+        $timetables = Timetable::where('room_id', $roomId)
+            ->where('movie_id', $movieId)
+            ->get();
+
+        $dateRanges = [];
+
+        foreach ($timetables as $timetable) {
+            $startDate = new \DateTime($timetable->start_date);
+            $endDate = new \DateTime($timetable->end_date);
+
+            $dateRange = new \DatePeriod($startDate, new \DateInterval('P1D'), $endDate->modify('+1 day'));
+
+            $dateRanges[] = $dateRange;
+        }
+
+        return view('choosingDateTime', compact('room', 'dateRanges'));
     }
 }

@@ -14,11 +14,21 @@ class Room extends Model
 
     public function cinema()
     {
-        return $this->belongsTo(Cinema::class);
+        return $this->belongsTo(Cinema::class, 'cinema_id');
     }
 
-    public function timetable()
+    public function timeTables()
     {
-        return $this->hasOne(Timetable::class);
+        return $this->hasMany(TimeTable::class, 'room_id');
+    }
+
+    public function seats()
+    {
+        return $this->hasMany(Seat::class);
+    }
+
+    public function rooms()
+    {
+        return $this->belongsTo(Room::class);
     }
 }

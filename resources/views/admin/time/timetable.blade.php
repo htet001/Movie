@@ -56,8 +56,8 @@
                         <div class="mb-3">
                             <label for="room_id" class="form-label">Select Room</label>
                             <select class="form-control" id="room_id" name="room_id" required>
-                                @foreach($cinemas as $cinema)
-                                <option value="{{ $cinema->id }}">{{ $cinema->name }}</option>
+                                @foreach($rooms as $room)
+                                <option value="{{ $room->id }}">{{ $room->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -97,7 +97,8 @@
     $(document).ready(function() {
         $('#time').tokenfield({
             autocomplete: {
-                source: ['9:00 AM', '10:00AM', '11:00AM', '12:00PM', '1:00PM', '2:00PM', '3:00PM', '4:00PM',
+                source: ['8:00 AM', '9:00 AM', '10:00AM', '11:00AM', '12:00PM', '1:00PM', '2:00PM',
+                    '3:00PM', '4:00PM',
                     '5:00PM'
                 ],
                 delay: 100

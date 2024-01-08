@@ -92,16 +92,18 @@
         <!-- Start Cinema -->
         <div class="entry-content e-content" itemprop="description articleBody">
             <div class="card mb-5">
-                @foreach ($theaterWithCinemas->rooms as $cinema)
-                <div class="card-body">
-                    <div class="d-flex">
-                        <img src="{{asset('uploads/'.$cinema->image  )}}" alt="Junction City" id="theaterImage">
-                        <div>
-                            <h5 class="card-title mb-3">{{$cinema->cinema->name}}</h5>
-                            <h5 class="card-title mb-3">{{$cinema->name}}</h5>
-                            <div class="mrate  no-rate">
-                                <a href="{{url('/choosingDateTime')}}" class="book_button">Book</a>
-                                <a href="{{url('/choosingDateTime')}}" class="book_button">Buy</a>
+                @foreach ($rooms as $room)
+                <div class="card mb-5">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <img src="{{ asset('uploads/' . $room->image) }}" alt="{{ $room->name }}" id="theaterImage">
+                            <div class="ml-3">
+                                <h5 class="card-title mb-3">{{ $room->name }}</h5>
+                                <p class="card-text">{{ $room->description }}</p>
+                                <div class="mrate no-rate">
+                                    <a href="{{ url($movie->id.'/'.$room->id.'/choosingDateTime') }}" class="book_button">Book</a>
+
+                                </div>
                             </div>
                         </div>
                     </div>

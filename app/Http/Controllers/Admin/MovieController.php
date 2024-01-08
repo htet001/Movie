@@ -78,9 +78,11 @@ class MovieController extends Controller
     public function show(string $id)
     {
         $movie = Movie::findOrFail($id);
+        $cinemas = Cinema::whereHas('rooms.timeTables', function ($query) use ($id) {
+            $query->where('movie_id', $id);
+        })->select('id', 'name', 'location', 'image')->get();
 
-        $theaters = Cinema::select('id', 'name', 'location', 'image')->get();
-        return view('admin.movie.detail', compact('movie', 'theaters'));
+        return view('admin.movie.detail', compact('movie', 'cinemas'));
     }
 
     public function edit(string $id)

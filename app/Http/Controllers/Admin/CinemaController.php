@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Room;
+use App\Models\Movie;
+use App\Models\Cinema;
 use App\Models\Theater;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Cinema;
 use Illuminate\Support\Facades\File;
 
 class CinemaController extends Controller
@@ -90,10 +92,23 @@ class CinemaController extends Controller
         return redirect()->back()->with('message', 'Theater deleted successfully');
     }
 
-    public function viewCinemas($theaterId)
+    public function choosingRoom(string $movieId, string $cinemaId)
     {
-        $theaterWithCinemas = Cinema::with('cinemas')->find($theaterId);
+        $movie = Movie::findOrFail($movieId);
+        $cinema = Cinema::findOrFail($cinemaId);
 
-        return view('admin.theater.viewCinemas', compact('theaterWithCinemas'));
+        $rooms = Room::whereHas('timeTables', function ($query) use ($movieId, $cinemaId) {
+            $query->where('movie_id', $movieId)
+                ->where('cinema_id', $cinemaId);
+        })->get();
+
+        return view('choosingRoom', compact('movie', 'cinema', 'rooms'));
+    }
+
+    public function viewRooms($cinemaId)
+    {
+        $rooms = Cinema::with('rooms')->find($cinemaId);
+
+        return view('admin.theater.viewRooms', compact('rooms'));
     }
 }

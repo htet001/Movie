@@ -18,4 +18,9 @@ class Movie extends Model
     {
         return $this->hasOne(Timetable::class);
     }
+
+    public function cinemas()
+    {
+        return $this->belongsToMany(Cinema::class, 'movie_cinema', 'movie_id', 'cinema_id');
+    }
 }
