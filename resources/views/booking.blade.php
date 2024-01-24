@@ -31,28 +31,31 @@
 
 <div class="container my-5" id="booking">
     <div class="col-md-9">
-        <form id="bookingForm">
-            <div class="row">
-                <h2 class="mb-5">Movie Booking</h2>
-                <div class="col-md-5">
-                    <h5 class="mb-5">Movie name</h5>
-                    <h5 class="mb-5">Date</h5>
-                    <h5 class="mb-5">Time</h5>
-                    <h5 class="mb-5">Number Of Seats</h5>
-                    <h5 class="mb-5">Total Price</h5>
-                </div>
-                <div class="col-md-7">
-                    <span>
-                        <h5 class="mb-5">: : Movie name</h5>
-                        <h5 class="mb-5">: : 25 December 2023</h5>
-                        <h5 class="mb-5">: : 3 : 00 PM</h5>
-                        <h5 class="mb-5">: : 4 seats</h5>
-                        <h5 class="mb-5">: : 30000 Kyats</h5>
-                    </span>
-                </div>
+        @csrf
+        <div class="row">
+            <h2 class="mb-5">Movie Booking</h2>
+            @foreach($datas as $data)
+            <div class="col-md-5">
+                <h5 class="mb-5">Movie name</h5>
+                <h5 class="mb-5">Room name</h5>
+                <h5 class="mb-5">Date</h5>
+                <h5 class="mb-5">Time</h5>
+                <h5 class="mb-5">Number Of Seats</h5>
+                <h5 class="mb-5">Total Price</h5>
             </div>
-            <button type="submit" id="bookTicket">Book Ticket</button>
-        </form>
+            <div class="col-md-7">
+                <span>
+                    <h5 class="mb-5">: : {{ $data->movie->name }}</h5>
+                    <h5 class="mb-5">: : {{ $data->room->name }}</h5>
+                    <h5 class="mb-5">: : {{ $data->date }}</h5>
+                    <h5 class="mb-5">: : {{ $data->time }}</h5>
+                    <h5 class="mb-5">: : {{ $data->total_seats }} seats</h5>
+                    <h5 class="mb-5">: : {{ $data->total_price }} Ks</h5>
+                </span>
+            </div>
+            @endforeach
+        </div>
+        <a href="{{'/bookingSuccess'}}"><button type="submit" id="bookTicket">Book Ticket</button></a>
     </div>
 </div>
 

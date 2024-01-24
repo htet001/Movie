@@ -72,7 +72,15 @@
                                 class="ti-control-record"></i>Room List</a></li>
                 </ul>
             </li>
-
+            <li>
+                <a href="javascript: void(0);"><i class="fa-regular fa-ticket"></i></i><span>Ticket</span><span
+                        class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+            </li>
+            <li>
+                <a href="{{url('/mail')}}"><i data-feather="inbox"
+                        class="align-self-center menu-icon"></i><span>Mail</span><span class="menu-arrow"><i
+                            class="mdi mdi-chevron-right"></i></span></a>
+            </li>
         </ul>
     </div>
     <!-- End Side Bar -->

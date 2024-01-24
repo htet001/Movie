@@ -11,7 +11,7 @@ class Movie extends Model
     use HasFactory;
     // use SoftDeletes;
     protected $fillable = [
-        'name', 'genre', 'image', 'trailer', 'directors', 'actors', 'slider_image'
+        'name', 'genre', 'image', 'trailer', 'directors', 'actors', 'upcoming', 'slider_image', 'about'
     ];
 
     public function timetable()

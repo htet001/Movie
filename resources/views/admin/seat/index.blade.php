@@ -2,12 +2,12 @@
 @section('title','Cinema List')
 @section('content')
 <style>
-    .container {
-        margin-top: 50px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 10px 50px;
-        border-radius: 10px;
-    }
+.container {
+    margin-top: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px 50px;
+    border-radius: 10px;
+}
 </style>
 <div class="container col-md-6">
     <div class="row">
@@ -25,12 +25,12 @@
                 </div>
                 <div class="col-md-6">
                     <label for="seat" class="form-label">Count</label>
-                    <input type="number" class="form-control" id="count" name="count">
+                    <input type="number" class="form-control" id="count" name="count" min="0" max="16">
                 </div>
             </div>
             <div class="form-group">
                 <label for="price" class="form-label">Price</label>
-                <input type="number" class="form-control" id="price" name="price">
+                <input type="number" class="form-control" id="price" name="price" min="0" step="500">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

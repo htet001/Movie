@@ -15,21 +15,29 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+            ]);
 
-        $category = new Category();
-        $category->name = $request->input('name');
-        $category->save();
+            $existingCategory = Category::where('name', $request->input('name'))->first();
+            if ($existingCategory) {
+                return redirect()->back()->with('message', 'Category with this name already exists');
+            }
 
-        return redirect('/categorylist')->with('success', 'Category created successfully');
+            $category = new Category();
+            $category->name = $request->input('name');
+            $category->save();
+
+            return redirect('/categorylist')->with('message', 'Category created successfully');
+        } catch (\Exception $e) {
+            return redirect('/categorylist')->with('message', 'Error creating category: ' . $e->getMessage());
+        }
     }
 
     public function categorylist()
     {
         $categories = Category::select('id', 'name')->get();
-
         return view('admin.category.categoryList', compact('categories'));
     }
 
@@ -41,25 +49,32 @@ class CategoryController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $category = Category::findOrFail($id);
+        try {
+            $category = Category::findOrFail($id);
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+            $request->validate([
+                'name' => 'required|string|max:255',
+            ]);
 
-        $category->name = $request->input('name');
-        $category->save();
+            $existingCategory = Category::where('name', $request->input('name'))->first();
+            if ($existingCategory) {
+                return redirect()->back()->with('message', 'Category with this name already exists');
+            }
 
-        return redirect('/categorylist')->with('success', 'Category Updated Successfully');
+            $category->name = $request->input('name');
+            $category->save();
+
+            return redirect('/categorylist')->with('message', 'Category updated successfully');
+        } catch (\Exception $e) {
+            return redirect('/categorylist')->with('error', 'Error updating category: ' . $e->getMessage());
+        }
     }
-
 
     public function destroy(string $id)
     {
         $category = Category::findOrFail($id);
-
         $category->delete();
 
-        return redirect('/categorylist')->with('success', 'Category Deleted Successfully');
+        return redirect('/categorylist')->with('message', 'Category Deleted Successfully');
     }
 }

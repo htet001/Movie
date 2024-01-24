@@ -43,16 +43,18 @@
 }
 
 .time {
-    color: green;
+    color: black;
 }
 
 .timelist {
     padding: 10px;
-    border: 1px solid green;
+    border: 1px solid tomato;
     margin: 0px 20px;
 }
 
-
+.timelist.selected {
+    background-color: tomato;
+}
 
 @import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
 
@@ -101,7 +103,10 @@
 }
 
 .selected {
-    background-color: #0081cb;
+    background-color: #00ff00;
+    /* Change this to the desired background color */
+    color: #ffffff;
+    /* Change this to the desired text color */
 }
 
 .occupied {
@@ -193,41 +198,6 @@ p.text span {
     margin-right: 2px !important;
 }
 </style>
-
-<script>
-const container = document.querySelector('.container');
-const seats = document.querySelectorAll('.row .seat:not(.occupied)');
-const count = document.getElementById('count');
-const total = document.getElementById('total');
-const movieSelect = document.getElementById('movie');
-
-let ticketPrice = +movieSelect.value;
-
-//Update total and count
-function updateSelectedCount() {
-    const selectedSeats = document.querySelectorAll('.row .seat.selected');
-    const selectedSeatsCount = selectedSeats.length;
-    count.innerText = selectedSeatsCount;
-    total.innerText = selectedSeatsCount * ticketPrice;
-}
-
-//Movie Select Event
-movieSelect.addEventListener('change', e => {
-    ticketPrice = +e.target.value;
-    updateSelectedCount();
-});
-
-//Seat click event
-container.addEventListener('click', e => {
-    if (e.target.classList.contains('seat') &&
-        !e.target.classList.contains('occupied')) {
-        e.target.classList.toggle('selected');
-    }
-    updateSelectedCount();
-});
-</script>
-
-
 
 <!-- Start Movie Detail -->
 <div class="page-content my-5">
@@ -322,6 +292,7 @@ container.addEventListener('click', e => {
     </article>
 </div>
 <!-- End Movie Detail -->
+
 <div class="elementor-element elementor-element-46cb6f1 elementor-widget elementor-widget-Amy_V2_Movie_Heading"
     data-id="46cb6f1" data-element_type="widget" data-widget_type="Amy_V2_Movie_Heading.default">
     <div class="elementor-widget-container">
@@ -333,208 +304,224 @@ container.addEventListener('click', e => {
             </header>
         </div>
 
-
-        <!--Start Choosing Date -->
-        <div class="container" id="dateContainer">
-            <div class="row">
-                <ul style="display: flex;" id="dateList">
-                    <!-- Add more date items as needed -->
-                    @foreach ($dateRanges as $dateRange)
-                    <ul class="dateclass">
-                        @foreach ($dateRange as $date)
-                        <li onclick="selectDate(this)">
-                            <div class="date">
-                                <span class="dateItem">{{ $date->format('D') }}</span>
-                                <span class="dateItem">{{ $date->format('d') }}</span>
-                                <span class="dateItem">{{ $date->format('M') }}</span>
-                            </div>
-                        </li>
-                        @endforeach
-                        @php
-                        $dateArray = iterator_to_array($dateRange);
-                        @endphp
-                        @if (count($dateArray) > 0)
-                        <div class="date-range">
-                            <span class="dateItem">{{ reset($dateArray)->format('D') }}</span>
-                            <span class="dateItem">{{ reset($dateArray)->format('d') }}</span>
-                            <span class="dateItem">{{ reset($dateArray)->format('M') }}</span>
-                            <span class="dateItem">-</span>
-                            <span class="dateItem">{{ end($dateArray)->format('D') }}</span>
-                            <span class="dateItem">{{ end($dateArray)->format('d') }}</span>
-                            <span class="dateItem">{{ end($dateArray)->format('M') }}</span>
+        <!-- Start Choosing Date -->
+        <form id="bookingForm" action="{{ route('choosingDate', ['movieId' => $movieId, 'roomId' => $roomId]) }}"
+            method="post">
+            @csrf
+            <div class="container" id="dateContainer">
+                <div class="row">
+                    <ul style="display: flex;" id="dateList">
+                        @isset($dateRanges)
+                        @foreach ($dateRanges as $dateRange)
+                        <div class="dateclass">
+                            @foreach ($dateRange as $date)
+                            @if ($date >= now())
+                            <li onclick="selectDate(this, '{{ $movieId }}', '{{ $roomId }}')">
+                                <div class="date">
+                                    <span class="dateItem">{{ $date->format('D') }}</span>
+                                    <span class="dateItem">{{ $date->format('d') }}</span>
+                                    <span class="dateItem">{{ $date->format('M') }}</span>
+                                </div>
+                            </li>
+                            @endif
+                            @endforeach
                         </div>
-                        @endif
+                        @endforeach
+                        @endisset
                     </ul>
-                    @endforeach
-
-                </ul>
+                </div>
             </div>
-        </div>
 
-        <script>
-        function selectDate(element) {
-            const dateItems = document.querySelectorAll('.date');
-            dateItems.forEach(item => item.classList.remove('selected'));
-
-            element.querySelector('.date').classList.add('selected');
-
-            updateTime(element);
-        }
-        </script>
-        <!--End Choosing Date -->
-    </div>
-</div>
-
-<!-- START CHOOSING TIME -->
-<div class="container" style="width: 70%;">
-    <div class="entry-content e-content" itemprop="description articleBody">
-        <div class="card mb-3">
-            <div class="card-body">
-                <div class="d-flex">
-                    <div style="margin: 10px 0px 10px 60px;width:30%;">
-                        <h5>Theater Name</h5>
-                        <h5>Location</h5>
-                        <h5>Cinema Name</h5>
-                    </div>
-                    <div>
-                        <ul style="display: flex;margin-top:32px;">
-                            <li class="timelist">
-                                <span class="time">9 : 00 AM</span>
-                            </li>
-                            <li class="timelist">
-                                <span class="time">12 : 00 PM</span>
-                            </li>
-                            <li class="timelist">
-                                <span class="time">3 : 00 PM</span>
-                            </li>
-                        </ul>
+            <div class="container" style="width: 70%;">
+                <div class="entry-content e-content" itemprop="description articleBody">
+                    <div class="mb-3">
+                        <div class="">
+                            <meta name="csrf-token" content="{{ csrf_token() }}">
+                            <div class="d-flex">
+                                <div class="theater-info" style="margin: 10px 0px 10px 60px; width:30%;">
+                                    <!-- Theater info will be updated dynamically -->
+                                </div>
+                                <div>
+                                    <ul class="time-list" style="display: flex; margin-top:32px;">
+                                        <!-- Time list will be updated dynamically -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <!-- START SEAT -->
+            <div class="movie-container">
+                <ul class="showcase">
+                    <li>
+                        <div class="seat"></div>
+                        <small>N/A</small>
+                    </li>
+                    <li>
+                        <div class="seat selected"></div>
+                        <small>Selected</small>
+                    </li>
+                    <li>
+                        <div class="seat occupied"></div>
+                        <small>Occupied</small>
+                    </li>
+                </ul>
+
+                <div class="container" id="seatContainer">
+                    <div class="screen text-center">
+                        {{ $roomName }}
+                    </div>
+                    @foreach($groupedSeats as $name => $seatsGroup)
+                    <div class="row">
+                        @foreach($seatsGroup as $seat)
+                        @php
+                        $isOccupied = $seat->isOccupied(); // Implement a method to check if the seat is occupied
+                        @endphp
+                        <div class="seat @if($isOccupied) occupied @endif" onclick="selectSeat({{ $seat->id }}, this)">
+                            {{ $seat->name }} {{ $seat->count }}
+                        </div>
+                        @endforeach
+                    </div>
+                    @endforeach
+                    <a href="{{'/booking'}}"><button class="mb-5" type="button" id="book">Submit</button></a>
+                </div>
+
+            </div>
+        </form>
+        <!-- END SEAT -->
+
+        <script>
+        let selectedDate;
+        let movieId = "{{ $movieId }}";
+        let roomId = "{{ $roomId }}";
+
+        function selectDate(element) {
+            console.log('Clicked element:', element);
+
+            const dateItems = document.querySelectorAll('.date');
+            dateItems.forEach(item => item.classList.remove('selected'));
+
+            const dateElement = element.querySelector('.date');
+            if (dateElement) {
+                dateElement.classList.add('selected');
+
+                selectedDate = {
+                    day: dateElement.children[0].textContent,
+                    date: dateElement.children[1].textContent,
+                    month: dateElement.children[2].textContent,
+                };
+
+                console.log('Selected date:', selectedDate);
+
+                const theaterInfo = document.querySelector('.theater-info');
+                theaterInfo.innerHTML = `
+            <h5>Theater Name</h5>
+            <h5>Location</h5>
+            <h5>Cinema Name</h5>
+        `;
+
+                const timeList = document.querySelector('.time-list');
+                timeList.innerHTML = `
+            @foreach($times as $time)
+                <li class="timelist" onclick="selectTime(this)">
+                    <span class="time">{{ $time }}</span>
+                </li>
+            @endforeach
+        `;
+            } else {
+                console.error('Error: Date element not found');
+            }
+        }
+
+        let selectedTime;
+
+        function selectTime(timeElement) {
+            const timeItems = document.querySelectorAll('.timelist');
+            timeItems.forEach(item => item.classList.remove('selected'));
+
+            timeElement.classList.add('selected');
+
+            const selectedDateElement = document.querySelector('.date.selected');
+            if (selectedDateElement) {
+                const selectedDate = {
+                    day: selectedDateElement.children[0].textContent,
+                    date: selectedDateElement.children[1].textContent,
+                    month: selectedDateElement.children[2].textContent,
+                };
+
+                selectedTime = timeElement.querySelector('.time').textContent;
+
+                sendSelectedDataToServer(selectedDate, selectedTime, selectedSeats);
+            } else {
+                console.error('Error: Selected date not found');
+            }
+        }
+
+        var selectedSeats = [];
+
+        function selectSeat(seatId, seatElement) {
+            const isOccupied = $(seatElement).hasClass('occupied');
+
+            if (!isOccupied) {
+                $(seatElement).toggleClass('selected');
+                const seatIndex = selectedSeats.indexOf(seatId);
+
+                if (seatIndex === -1) {
+                    selectedSeats.push(seatId);
+                } else {
+                    selectedSeats.splice(seatIndex, 1);
+                }
+
+                console.log('Selected Seat IDs:', selectedSeats);
+            } else {
+                console.log('Seat is already occupied and cannot be selected.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const submitBtn = document.getElementById('book');
+            submitBtn.addEventListener('click', function() {
+                sendSelectedDataToServer(selectedDate, selectedTime, selectedSeats);
+            });
+        });
+
+        function sendSelectedDataToServer(selectedDate, selectedTime, selectedSeats) {
+            console.log('Sending data to server:', {
+                selectedDate,
+                selectedTime,
+                selectedSeats
+            });
+
+            const data = {
+                date: selectedDate,
+                time: selectedTime,
+                seat_id: selectedSeats,
+            };
+
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+                type: 'POST',
+                url: `/${movieId}/${roomId}/choosingDateTime`,
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function(response) {
+                    console.log('Data sent successfully:', response);
+                },
+                error: function(error) {
+                    console.error('Error sending data to server:', error);
+                }
+            });
+        }
+        </script>
+
+        <!-- End Choosing Date -->
     </div>
 </div>
-<!-- END CHOOSING TIME -->
-
-<!-- START SEAT -->
-<div class="movie-container">
-    <label>Pick a movie: </label>
-    <select id="movie">
-        <option value="250">Interstellar (Rs. 250)</option>
-        <option value="200">Kabir Singh (Rs. 200)</option>
-        <option value="150">Duniyadari (Rs. 150)</option>
-        <option value="100">Natsamrat (Rs. 100)</option>
-    </select>
-    <ul class="showcase">
-        <li>
-            <div class="seat"></div>
-            <small>N/A</small>
-        </li>
-        <li>
-            <div class="seat selected"></div>
-            <small>Selected</small>
-        </li>
-        <li>
-            <div class="seat occupied"></div>
-            <small>Occupied</small>
-        </li>
-    </ul>
-
-    <div class="container" id="seatContainer">
-        <div class="screen"></div>
-
-        <div class="row">
-            <div class="seat">A1</div>
-            <div class="seat">A2</div>
-            <div class="seat">A3</div>
-            <div class="seat">A4</div>
-            <div class="seat">A5</div>
-            <div class="seat">A6</div>
-            <div class="seat">A7</div>
-            <div class="seat">A8</div>
-            <div class="seat">A9</div>
-            <div class="seat">A10</div>
-        </div>
-        <div class="row">
-            <div class="seat">B1</div>
-            <div class="seat">B2</div>
-            <div class="seat">B3</div>
-            <div class="seat occupied">B4</div>
-            <div class="seat occupied">B5</div>
-            <div class="seat">B6</div>
-            <div class="seat">B7</div>
-            <div class="seat">B8</div>
-            <div class="seat">B9</div>
-            <div class="seat">B10</div>
-        </div>
-        <div class="row">
-            <div class="seat">C1</div>
-            <div class="seat">C2</div>
-            <div class="seat">C3</div>
-            <div class="seat">C4</div>
-            <div class="seat">C5</div>
-            <div class="seat">C6</div>
-            <div class="seat occupied">C7</div>
-            <div class="seat occupied">C8</div>
-            <div class="seat">C9</div>
-            <div class="seat">C10</div>
-        </div>
-        <div class="row">
-            <div class="seat">D1</div>
-            <div class="seat">D2</div>
-            <div class="seat">D3</div>
-            <div class="seat">D4</div>
-            <div class="seat">D5</div>
-            <div class="seat">D6</div>
-            <div class="seat">D7</div>
-            <div class="seat">D8</div>
-            <div class="seat">D9</div>
-            <div class="seat">D10</div>
-        </div>
-        <div class="row">
-            <div class="seat">E1</div>
-            <div class="seat">E2</div>
-            <div class="seat">E3</div>
-            <div class="seat occupied">E4</div>
-            <div class="seat occupied">E5</div>
-            <div class="seat">E6</div>
-            <div class="seat">E7</div>
-            <div class="seat">E8</div>
-            <div class="seat">E9</div>
-            <div class="seat">E10</div>
-        </div>
-        <div class="row">
-            <div class="seat">F1</div>
-            <div class="seat">F2</div>
-            <div class="seat">F3</div>
-            <div class="seat">F4</div>
-            <div class="seat occupied">F5</div>
-            <div class="seat occupied">F6</div>
-            <div class="seat occupied">F7</div>
-            <div class="seat">F8</div>
-            <div class="seat">F9</div>
-            <div class="seat">F10</div>
-        </div>
-        <div class="row">
-            <div class="seat" style="width: 100px;">G1</div>
-            <div class="seat" style="width: 100px;margin-right:5px;">G2</div>
-            <div class="seat occupied" style="width: 100px;margin-right:18px;">G3</div>
-            <div class="seat occupied" style="width: 100px;">G4</div>
-            <div class="seat" style="width: 100px;">G5</div>
-        </div>
-
-        <p class="text">
-            You have selected <span id="count">0</span> seats for the total price of Rs. <span id="total">0</span>
-        </p>
-        <button class="mb-5" type="submit" id="book"><a href="{{url('/booking')}}">Submit</a></button>
-    </div>
-</div>
-<!-- END SEAT -->
-
-
-
-
-
-
 
 @endsection

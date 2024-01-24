@@ -44,20 +44,15 @@ tr:nth-child(even) {
 }
 </style>
 <table>
-    @if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
+    @if(session('message'))
+    <div class="alert alert-success" id="successMessage">
+        {{ session('message') }}
     </div>
-    @endif
-    @if(session('edit_message'))
-    <div class="alert alert-success">
-        {{ session('edit_message') }}
-    </div>
-    @endif
-    @if(session('delete_message'))
-    <div class="alert alert-success">
-        {{ session('delete_message') }}
-    </div>
+    <script>
+    setTimeout(function() {
+        document.getElementById('successMessage').style.display = 'none';
+    }, 3000);
+    </script>
     @endif
     <thead>
         <tr>

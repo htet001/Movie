@@ -43,50 +43,43 @@ class SeatController extends Controller
         $room = Room::findOrFail($roomId);
 
         if ($room) {
-            $seats = Seat::where('room_id', $roomId)->get();
+            $seats = Seat::where('room_id', $roomId)->select('name', 'count', 'price')->get();
+            $groupedSeats = $seats->groupBy('name');
             $roomName = $room->name;
 
-            return view('admin.seat.showseat', compact('seats', 'roomName'));
+            return view('admin.seat.showseat', compact('groupedSeats', 'roomName', 'room', 'roomId'));
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function update(Request $request, $roomId)
     {
-        //
-    }
+        $request->validate([
+            'seat.*' => 'required|integer|min:0',
+            'price.*' => 'required|numeric|min:0',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        $seatData = $request->only(['seat', 'price']);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        foreach ($seatData['seat'] as $name => $count) {
+            Seat::where('room_id', $roomId)
+                ->where('name', $name)
+                ->where('count', '>', $count)
+                ->delete();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+            for ($i = 1; $i <= $count; $i++) {
+                Seat::updateOrCreate(
+                    [
+                        'room_id' => $roomId,
+                        'name' => $name,
+                        'count' => $i,
+                    ],
+                    [
+                        'price' => $seatData['price'][$name],
+                    ]
+                );
+            }
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect('/seat/' . $roomId)->with('success', 'Seats updated successfully');
     }
 }

@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('directors');
             $table->string('actors');
             $table->string('slider_image');
-            $table->text('about')->default('');
         });
     }
 

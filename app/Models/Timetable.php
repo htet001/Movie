@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Timetable extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'movie_id',
         'room_id',

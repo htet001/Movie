@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\BookingMail;
+use DateTime;
 use Carbon\Carbon;
 use App\Models\Room;
+use App\Models\Seat;
 use App\Models\Movie;
-use App\Models\Cinema;
 use App\Models\Timetable;
 use Illuminate\Http\Request;
+use App\Models\SeatTimetable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TimetableController extends Controller
@@ -29,7 +34,7 @@ class TimetableController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'time' => 'required|array',
-            'time.*' => 'required', // Adjust the format based on your needs
+            'time.*' => 'required',
         ]);
 
         $showtime = new Timetable();
@@ -92,27 +97,83 @@ class TimetableController extends Controller
         return redirect()->route('timetablelist')->with('success', 'Timetable deleted successfully');
     }
 
-    public function choosingDateTime(string $movieId, string $roomId)
+    public function choosingDate(string $movieId, string $roomId)
     {
         $movie = Movie::findOrFail($movieId);
         $room = Room::findOrFail($roomId);
 
-        // Use where clauses separately for room_id and movie_id
-        $timetables = Timetable::where('room_id', $roomId)
-            ->where('movie_id', $movieId)
-            ->get();
+        $arytimes = Timetable::select('time')->where('room_id', $roomId)->where('movie_id', $movieId)->get();
+        if ($arytimes->isNotEmpty()) {
+            $serializedTime = $arytimes[0]->time;
+            $unserializedData = unserialize($serializedTime);
+            if (is_array($unserializedData)) {
+                $times = explode(', ', $unserializedData[0]);
+            } else {
+                $times = [];
+            }
+        } else {
+            $times = [];
+        }
 
+        $timetables = Timetable::where('room_id', $roomId)->where('movie_id', $movieId)->get();
         $dateRanges = [];
-
         foreach ($timetables as $timetable) {
             $startDate = new \DateTime($timetable->start_date);
             $endDate = new \DateTime($timetable->end_date);
-
             $dateRange = new \DatePeriod($startDate, new \DateInterval('P1D'), $endDate->modify('+1 day'));
-
             $dateRanges[] = $dateRange;
         }
 
-        return view('choosingDateTime', compact('room', 'dateRanges'));
+        $seats = Seat::where('room_id', $roomId)->select('id', 'name', 'count', 'price')->get();
+        $groupedSeats = $seats->groupBy('name');
+        $roomName = $room->name;
+
+        return view('choosingDateTime', compact('room', 'dateRanges', 'times', 'groupedSeats', 'roomName', 'roomId', 'movieId'));
+    }
+
+
+    public function choosingDateTime(Request $request, $movieId, $roomId)
+    {
+        try {
+            $selectedDate = $request->input('date');
+            $selectedTime = $request->input('time');
+            $selectedSeats = $request->input('seat_id');
+
+            $formattedDate = $selectedDate['date'] . '-' . $selectedDate['month'] . '-' . $selectedDate['day'];
+            $user_id = Auth::id();
+            foreach ($selectedSeats as $seatId) {
+                $existingBooking = SeatTimetable::where('movie_id', $movieId)
+                    ->where('room_id', $roomId)
+                    ->where('date', $formattedDate)
+                    ->where('time', $selectedTime)
+                    ->where('seat_id', $seatId)
+                    ->first();
+
+                if ($existingBooking) {
+                    $existingBooking->update([
+                        'user_id' => $user_id,
+                        'movie_id' => $movieId,
+                        'room_id' => $roomId,
+                        'date' => $formattedDate,
+                        'time' => $selectedTime,
+                        'seat_id' => $seatId,
+                    ]);
+                } else {
+                    $booking = new SeatTimetable();
+                    $booking->user_id = $user_id;
+                    $booking->movie_id = $movieId;
+                    $booking->room_id = $roomId;
+                    $booking->date = $formattedDate;
+                    $booking->time = $selectedTime;
+                    $booking->seat_id = $seatId;
+                    $booking->save();
+                }
+            }
+            BookingMail::dispatch($booking);
+            return redirect()->back();
+        } catch (\Exception $e) {
+            Log::error('Error handling selected data: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

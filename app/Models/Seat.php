@@ -14,4 +14,10 @@ class Seat extends Model
     {
         return $this->belongsTo(Room::class);
     }
+
+    public function isOccupied()
+    {
+        $occupied = SeatTimetable::where('seat_id', $this->id)->exists();
+        return $occupied;
+    }
 }
