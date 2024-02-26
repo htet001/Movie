@@ -1,16 +1,16 @@
 @extends('admin.adminLayout.adminMaster')
 @section('title','Cinema List')
 @section('content')
-<style>
-.container {
-    margin-top: 50px;
+<div class="container col-md-6" style="margin-top: 50px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 10px 50px;
-    border-radius: 10px;
-}
-</style>
-<div class="container col-md-6">
+    border-radius: 10px;">
     <div class="row">
+        @if(session('message'))
+        <div class="alert alert-danger">
+            {{ session('message') }}
+        </div>
+        @endif
         <h1 class="text-center">Seat</h1>
         <form action="{{url('seat/'.$room->id.'/create')}}" method="post">
             @csrf

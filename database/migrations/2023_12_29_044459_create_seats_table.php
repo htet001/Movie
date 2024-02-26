@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('room_id')->constrained('rooms');
             $table->string('name');
+            $table->integer('count');
             $table->float('price');
             $table->timestamps();
         });

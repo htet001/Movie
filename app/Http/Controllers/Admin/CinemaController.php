@@ -6,6 +6,7 @@ use App\Models\Room;
 use App\Models\Movie;
 use App\Models\Cinema;
 use App\Models\Theater;
+use App\Models\Timetable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
@@ -28,6 +29,14 @@ class CinemaController extends Controller
         $name = pathinfo($request->image->getClientOriginalName(), PATHINFO_FILENAME);
         $image = uniqid() . "_$name.$ext";
         $request->image->move(public_path() . '/uploads/', $image);
+
+        $existingCinema = Cinema::where('name', $request->get('name'))
+            ->where('location', $request->get('location'))
+            ->first();
+
+        if ($existingCinema) {
+            return redirect()->back()->with('message', 'This Cinema already exists in this location.');
+        }
 
         $theater = new Cinema([
             'name' => $request->get('name'),
@@ -70,6 +79,14 @@ class CinemaController extends Controller
             $theater->image = $image;
         }
 
+        $existingCinema = Cinema::where('name', $request->get('name'))
+            ->where('location', $request->get('location'))
+            ->first();
+
+        if ($existingCinema) {
+            return redirect()->back()->with('message', 'This Cinema already exists in this location.');
+        }
+
         $theater->name = $request->get('name');
         $theater->location = $request->get('location');
 
@@ -96,13 +113,12 @@ class CinemaController extends Controller
     {
         $movie = Movie::findOrFail($movieId);
         $cinema = Cinema::findOrFail($cinemaId);
-
+        $releaseDate = Timetable::select('start_date')->where('movie_id', $movieId)->get();
         $rooms = Room::whereHas('timeTables', function ($query) use ($movieId, $cinemaId) {
             $query->where('movie_id', $movieId)
                 ->where('cinema_id', $cinemaId);
         })->get();
-
-        return view('choosingRoom', compact('movie', 'cinema', 'rooms'));
+        return view('choosingRoom', compact('movie', 'cinema', 'rooms', 'releaseDate'));
     }
 
     public function viewRooms($cinemaId)

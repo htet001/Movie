@@ -20,11 +20,9 @@
                             <div class="mb-3">
                                 <label for="movieType" class="form-label">Genre</label>
                                 <select class="form-select" id="genre" name="genre" required>
-                                    <option>{{$movie->genre}}</option>
-                                    <option value="action">action</option>
-                                    <option value="adventure">adventure</option>
-                                    <option value="comedy">comedy</option>
-                                    <option value="crime">crime</option>
+                                    @foreach($categories as $category)
+                                    <option>{{$category->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -64,11 +62,10 @@
                          <textarea class="form-control" id="about" rows="7" name="about"
                             required>{{$movie->about}}</textarea>
                     </div>
-                         <button type="submit" class="btn btn-primary" id="updateMovieButton">Update</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 @endsection

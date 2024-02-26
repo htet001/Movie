@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/custom.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/adminCustom.css')}}">
     <link href="../plugins/jvectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet">
 
     <!-- App css -->
@@ -18,6 +19,7 @@
     <link href="../plugins/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/css/app.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -149,11 +151,9 @@
                     <li class="dropdown">
                         <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-bs-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
                             <span class="ms-1 nav-user-name hidden-sm">{{auth()->user()->name}}</span>
-                            <img src="assets/images/users/user-5.jpg" alt="profile-user" class="rounded-circle thumb-xs" />
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
                             <a class="dropdown-item" href="{{route('admin.profile')}}"><i data-feather="user" class="align-self-center icon-xs icon-dual me-1"></i> Profile</a>
-                            <a class="dropdown-item" href="apps-contact-list.html"><i data-feather="users" class="align-self-center icon-xs icon-dual me-1"></i> Contacts</a>
                             <div class="dropdown-divider mb-0"></div>
                             <a class="dropdown-item" href="{{url('/logout')}}"><i data-feather="power" class="align-self-center icon-xs icon-dual me-1"></i> Logout</a>
                         </div>
@@ -205,6 +205,7 @@
 
     <!-- App js -->
     <script src="{{asset('assets/js/app.js')}}"></script>
+
 </body>
 
 </html>

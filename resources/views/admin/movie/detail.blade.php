@@ -1,25 +1,23 @@
 @extends('layout.master')
-
 @section('title','Movie Detail')
-
 @section('content')
 <section class="main-content amy-movie single-movie layout-right no-banner">
     <div class="container">
         <div class="row">
             <div class="col-md-8">
                 <div class="page-content">
-                    <article id="post-457" class="post-457 amy_tvshow type-amy_tvshow status-publish amy_genre-drama amy_genre-magic amy_genre-sci-fi amy_actor-alexander-cattly amy_actor-cartin-hollia amy_actor-greta-garbo amy_actor-humpray-richard amy_actor-martin-brando amy_director-grace-belly amy_director-kingia-rogers">
+                    <article id="post-457"
+                        class="post-457 amy_tvshow type-amy_tvshow status-publish amy_genre-drama amy_genre-magic amy_genre-sci-fi amy_actor-alexander-cattly amy_actor-cartin-hollia amy_actor-greta-garbo amy_actor-humpray-richard amy_actor-martin-brando amy_director-grace-belly amy_director-kingia-rogers">
                         <div class="entry-top">
                             <div class="entry-poster">
-                                <img class="" src="{{asset('/uploads/'. $movie->image)}}" alt="{{$movie->name}}" style="height: 380px;width:200px;object-fit:cover;" />
+                                <img class="" src="{{asset('/uploads/'. $movie->image)}}" alt="{{$movie->name}}"
+                                    style="height: 380px;width:200px;object-fit:cover;" />
                             </div>
                             <div class="entry-info">
                                 <h1 class="entry-title p-name" itemprop="name headline">
-                                    <a href="index.html" rel="bookmark" class="u-url url" itemprop="url">{{$movie->name}} </a>
+                                    <a rel="bookmark" class="u-url url" itemprop="url"
+                                        style="color: #fe7900;">{{$movie->name}} </a>
                                 </h1>
-                                <div class="entry-pg">
-                                    <span class="duration"><i class="fa fa-clock-o"></i>02 hours 30 minutes </span>
-                                </div>
                                 <ul class="info-list">
                                     <li>
                                         <label>Actor:</label>
@@ -33,26 +31,29 @@
                                         <label>Genre:</label>
                                         <span>{{$movie->genre}}</span>
                                     </li>
+                                    @foreach($releaseDate as $date)
                                     <li>
                                         <label>Release</label>
-                                        <span>May 19, 2022 </span>
+                                        <span>{{ \Carbon\Carbon::parse($date->start_date)->format('d-F-Y') }}</span>
                                     </li>
+                                    @endforeach
                                     <li>
                                         <label>About:</label>
-                                        <span>{{$movie->about}} </span>
+                                        <span>{{ implode(' ', array_slice(str_word_count($movie->about, 1), 0, 40)) }}</span>
                                     </li>
                                 </ul>
                                 <div class="entry-action">
                                     <div class="entry-share">
                                         <label>Share:</label>
                                         <ul class="amy-social-links clearfix">
-                                            <li><a href="https://www.facebook.com/sharer.php?u=http://demo.amytheme.com/movie/demo/elementor-movie-news/amy_tvshow/vikings/" class="fab fa-facebook" target="_blank"></a></li>
-                                            <li><a href="http://www.twitter.com/share?url=http://demo.amytheme.com/movie/demo/elementor-movie-news/amy_tvshow/vikings/" class="fab fa-twitter" target="_blank"></a></li>
-                                            <li><a href="http://pinterest.com/pin/create/button/?url=http://demo.amytheme.com/movie/demo/elementor-movie-news/amy_tvshow/vikings/" class="fab fa-pinterest" target="_blank"></a></li>
+                                            <li><a class="fab fa-facebook" target="_blank"></a></li>
+                                            <li><a class="fab fa-twitter" target="_blank"></a></li>
+                                            <li><a class="fab fa-pinterest" target="_blank"></a></li>
                                         </ul>
                                     </div>
                                     <div class="amy-movie-item-button">
-                                        <a href="{{$movie->trailer}}" class="mt-4 amy-btn-icon-text link-detail fancybox.iframe amy-fancybox">
+                                        <a href="{{$movie->trailer}}"
+                                            class="mt-4 amy-btn-icon-text link-detail fancybox.iframe amy-fancybox">
                                             <i class="fa fa-play"></i>Trailer</a>
                                     </div>
                                     <div class="clearfix"></div>
@@ -63,18 +64,22 @@
 
                         <!-- Start Cinema List -->
                         <div class="entry-content e-content" itemprop="description articleBody">
-                            <h1 class="text-center mb-4">Cinema List</h1>
+                            <h1 class="text-center mb-4" style="color: #fe7900;">Cinema</h1>
                             <!-- MovieController show method -->
                             @foreach($cinemas as $cinema)
                             <div class="card mb-3">
                                 <div class="card-body">
                                     <div class="d-flex">
-                                        <img src="{{ asset('uploads/'.$cinema->image) }}" alt="{{ $cinema->name }}" id="theaterImage">
+                                        <img src="{{ asset('uploads/'.$cinema->image) }}" alt="{{ $cinema->name }}"
+                                            id="theaterImage">
                                         <div>
-                                            <h5 class="card-title">{{ $cinema->name }}</h5>
-                                            <p class="card-text">Location: {{ $cinema->location }}</p>
+                                            <h5 class="card-title" style="font-size: 20px;">{{ $cinema->name }}</h5>
+                                            <p class="card-text" style="font-size: 15px;">Location:
+                                                {{ $cinema->location }}
+                                            </p>
                                             <div class="mrate no-rate">
-                                                <a href="{{ url($movie->id.'/'.$cinema->id.'/choosingRoom/') }}" class="book_button">View Rooms</a>
+                                                <a href="{{ url($movie->id.'/'.$cinema->id.'/choosingRoom/') }}"
+                                                    class="book_button">View Rooms</a>
                                             </div>
                                         </div>
                                     </div>
@@ -83,8 +88,6 @@
                             @endforeach
                         </div>
                         <!-- End Cinema List -->
-
-
                     </article>
                 </div>
             </div>
@@ -94,61 +97,30 @@
                         <div class="amy-widget amy-widget-list">
                             <div class="amy-widget amy-widget-list list-movie ">
                                 <h4 class="amy-title amy-widget-title">Suggest Movie</h4>
+                                @foreach($nowMovie as $movie)
                                 <div class="entry-item">
-                                    <div class="entry-thumb"><img class="" src="../../wp-content/uploads/sites/8/2022/05/img_20-118x159_c.jpg" alt="Kubo and the Two Strings" />
+                                    <div class="entry-thumb"><img class="" src="{{asset('/uploads/'. $movie->image)}}"
+                                            alt="Kubo and the Two Strings" style="width: 120px;height: 170px" />
                                     </div>
                                     <div class="entry-content">
                                         <h2 class="entry-title">
-                                            <a href="../../amy_movie/kubo-and-the-two-strings/index.html">Kubo and the
-                                                Two Strings</a>
+                                            <a href="">{{$movie->name}}</a>
                                         </h2>
-                                        <div>
-                                            <span class="duration"><i class="fa fa-clock-o"></i>02 hours 00
-                                                minutes</span>
-                                        </div>
                                         <div class="genre">
                                             <span>
-                                                <a href="../../amy_genre/cartoon/index.html">Cartoon</a>,
-                                                <a href="../../amy_genre/comic/index.html">Comic</a>
+                                                <a href="">{{$movie->genre}}</a>,
+                                            </span>
+                                        </div>
+                                        <div class="about">
+                                            <span>
+                                                <a
+                                                    href="">{{ implode(' ', array_slice(str_word_count($movie->about, 1), 0, 20)) }}.....</a>,
                                             </span>
                                         </div>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
-                                <div class="entry-item">
-                                    <div class="entry-thumb"><img class="" src="../../wp-content/uploads/sites/8/2022/05/img_20-1-118x159_c.jpg" alt="The Hurricane Heist" /></div>
-                                    <div class="entry-content">
-                                        <h2 class="entry-title"><a href="../../amy_movie/the-hurricane-heist/index.html">The Hurricane
-                                                Heist</a></h2>
-                                        <div><span class="duration"><i class="fa fa-clock-o"></i>01 hours 30
-                                                minutes</span></div>
-                                        <div class="genre"><span><a href="../../amy_genre/comic/index.html">Comic</a>,
-                                                <a href="../../amy_genre/magic/index.html">Magic</a></span></div>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="entry-item">
-                                    <div class="entry-thumb"><img class="" src="../../wp-content/uploads/sites/8/2022/05/img_19-118x159_c.jpg" alt="Jumanji: Welcome to the Jungle" /></div>
-                                    <div class="entry-content">
-                                        <h2 class="entry-title"><a href="../../amy_movie/jumanji-welcome-to-the-jungle/index.html">Jumanji:
-                                                Welcome to the Jungle</a></h2>
-                                        <div><span class="duration"><i class="fa fa-clock-o"></i>02 hours 30
-                                                minutes</span></div>
-                                        <div class="genre"><span><a href="../../amy_genre/cartoon/index.html">Cartoon</a>, <a href="../../amy_genre/sci-fi/index.html">Sci-fi</a></span></div>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="entry-item">
-                                    <div class="entry-thumb"><img class="" src="../../wp-content/uploads/sites/8/2022/05/img_19-118x159_c.jpg" alt="Jumanji: Welcome to the Jungle" /></div>
-                                    <div class="entry-content">
-                                        <h2 class="entry-title"><a href="../../amy_movie/jumanji-welcome-to-the-jungle/index.html">Jumanji:
-                                                Welcome to the Jungle</a></h2>
-                                        <div><span class="duration"><i class="fa fa-clock-o"></i>02 hours 30
-                                                minutes</span></div>
-                                        <div class="genre"><span><a href="../../amy_genre/cartoon/index.html">Cartoon</a>, <a href="../../amy_genre/sci-fi/index.html">Sci-fi</a></span></div>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </aside>

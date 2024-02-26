@@ -2,49 +2,96 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Room;
+use App\Models\Movie;
+use App\Events\BookingMail;
+use App\Models\Booking;
 use Illuminate\Http\Request;
 use App\Models\SeatTimetable;
+use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
-    public function booking()
+    public function buy(Request $request, $movieId, $roomId)
     {
-        $user_id = auth()->user()->id;
-
-        $datas = SeatTimetable::join('seats', 'seat_timetables.seat_id', '=', 'seats.id')
-            ->with(['movie', 'room', 'user'])
-            ->where('seat_timetables.user_id', $user_id)
-            ->groupBy('seat_timetables.movie_id', 'seat_timetables.room_id', 'seat_timetables.date', 'seat_timetables.time', 'seat_timetables.user_id')
-            ->selectRaw('seat_timetables.movie_id, seat_timetables.room_id, seat_timetables.user_id, seat_timetables.date, seat_timetables.time, count(seats.id) as total_seats, sum(seats.price) as total_price')
-            ->get();
-
-        return view('booking', compact('datas'));
+        $movie = Movie::findOrFail($movieId);
+        $room = Room::findOrFail($roomId);
+        return view('buy',  compact('movie', 'room', 'movieId', 'roomId'));
     }
 
-    public function bookingSuccess()
+    public function book(Request $request, $movieId, $roomId)
     {
-        return view('bookingSuccess');
+        $movie = Movie::findOrFail($movieId);
+        $room = Room::findOrFail($roomId);
+
+        return view('book', compact('movie', 'room', 'movieId', 'roomId'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $movieId, $roomId)
     {
-        //
+        $request->validate([
+            'selectedDate' => 'required',
+            'selectedTime' => 'required',
+            'selectedSeats' => 'required|array',
+        ]);
+
+        $user_id = Auth::id();
+
+        foreach ($request->input('selectedSeats') as $selectedSeat) {
+            $existingBooking = SeatTimetable::where('user_id', $user_id)
+                ->where('movie_id', $movieId)
+                ->where('room_id', $roomId)
+                ->where('date', $request->input('selectedDate'))
+                ->where('time', $request->input('selectedTime'))
+                ->where('seat_id', $selectedSeat)
+                ->first();
+
+            if (!$existingBooking) {
+                $booking = new SeatTimetable();
+                $booking->user_id = $user_id;
+                $booking->movie_id = $movieId;
+                $booking->room_id = $roomId;
+                $booking->date = $request->input('selectedDate');
+                $booking->time = $request->input('selectedTime');
+                $booking->seat_id = $selectedSeat;
+                $booking->save();
+
+                BookingMail::dispatch($booking);
+            }
+        }
+
+        return response()->json(['message' => 'Booking successful'], 200);
     }
 
-
-
-    public function edit(string $id)
+    public function bookstore(Request $request, $movieId, $roomId)
     {
-        //
-    }
+        $request->validate([
+            'selectedDate' => 'required',
+            'selectedTime' => 'required',
+            'selectedSeats' => 'required',
+        ]);
+        $user_id = Auth::id();
+        foreach ($request->input('selectedSeats') as $selectedSeat) {
+            $existingBooking = Booking::where('user_id', $user_id)
+                ->where('movie_id', $movieId)
+                ->where('room_id', $roomId)
+                ->where('date', $request->input('selectedDate'))
+                ->where('time', $request->input('selectedTime'))
+                ->where('seat_id', $selectedSeat)
+                ->first();
 
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+            if (!$existingBooking) {
+                $booking = new Booking();
+                $booking->user_id = $user_id;
+                $booking->movie_id = $movieId;
+                $booking->room_id = $roomId;
+                $booking->date = $request->input('selectedDate');
+                $booking->time = $request->input('selectedTime');
+                $booking->seat_id = $selectedSeat;
+                $booking->save();
+            }
+        }
 
-    public function destroy(string $id)
-    {
-        //
+        return response()->json(['message' => 'Booking successful'], 200);
     }
 }

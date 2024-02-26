@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Room;
 use App\Models\Cinema;
-use App\Models\Theater;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 
@@ -26,26 +24,31 @@ class RoomController extends Controller
     public function store(Request $request)
     {
         $theaterId = $request->input('theater_id');
-
         $ext = $request->image->getClientOriginalExtension();
         $name = pathinfo($request->image->getClientOriginalName(), PATHINFO_FILENAME);
         $image = uniqid() . "_$name.$ext";
         $request->image->move(public_path() . '/uploads/', $image);
 
+        $existingRoom = Room::where('name', $request->get('name'))
+            ->where('cinema_id', $theaterId)
+            ->first();
+        if ($existingRoom) {
+            return redirect()->back()->with('message', 'A room with this name already exists in this Cinema.');
+        }
+
         $theater = new Room([
             'name' => $request->get('name'),
             'image' => $image,
-            'theater_id' =>  $theaterId,
+            'cinema_id' =>  $theaterId,
         ]);
 
         $theater->save();
-
         return redirect('/cinemalist')->with('message', 'New Cinema uploaded successfully');
     }
 
     public function cinemalist()
     {
-        $cinemas = Room::select('id', 'name', 'image')->orderBy('id', 'desc')->get();
+        $cinemas = Room::select('id', 'name', 'image', 'cinema_id')->orderBy('id', 'desc')->get();
         return view('admin.cinema.cinemalist', compact('cinemas'));
     }
 
@@ -66,20 +69,23 @@ class RoomController extends Controller
             if (File::exists($image_path)) {
                 File::delete($image_path);
             }
-
             $ext = $request->image->getClientOriginalExtension();
             $name = pathinfo($request->image->getClientOriginalName(), PATHINFO_FILENAME);
             $image = uniqid() . "_$name.$ext";
             $request->image->move(public_path() . '/uploads/', $image);
-
             $cinema->image = $image;
         }
 
+        $existingRoom = Room::where('name', $request->get('name'))
+            ->where('cinema_id', $theaterId)
+            ->first();
+        if ($existingRoom) {
+            return redirect()->back()->with('message', 'A room with this name already exists in this Cinema.');
+        }
+
         $cinema->name = $request->get('name');
-        $cinema->theater_id = $theaterId;
-
+        $cinema->cinema_id = $theaterId;
         $cinema->save();
-
         return redirect('/cinemalist')->with('message', 'Cinema updated successfully');
     }
 
@@ -93,7 +99,6 @@ class RoomController extends Controller
         }
 
         $cinema->delete();
-
         return redirect()->back()->with('message', 'Cinema deleted successfully');
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class SeatTimetable extends Model
 {
     use HasFactory;
-    protected $fillable = ['movie_id', 'room_id', 'date', 'time', 'seat_id'];
+    protected $fillable = ['user_id', 'movie_id', 'room_id', 'date', 'time', 'seat_id'];
 
     public function movie()
     {

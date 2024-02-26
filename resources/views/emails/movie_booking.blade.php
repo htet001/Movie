@@ -189,13 +189,13 @@
         <div class="card cardRight">
             <div class="eye"></div>
             <div class="number">
-                <h3>{{ $count }}</h3>
+                <h3>{{ $seatName }}{{$seatCount}}</h3>
                 <span>seat</span>
             </div>
-            <div class="seat">
-                <h2>{{ $seatName }}{{$seatCount}}</h2>
+            <!-- <div class="seat">
+                <h2></h2>
                 <span>seat</span>
-            </div>
+            </div> -->
         </div>
     </div>
 </body>

@@ -2,20 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginFormRequest;
-use App\Http\Requests\RegisterFormRequest;
 use App\Models\User;
+use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\LoginFormRequest;
+use App\Http\Requests\RegisterFormRequest;
 
 class UserController extends Controller
 {
-    public function index()
-    {
-        return view('userPage');
-    }
-
     public function loginShow()
     {
         return view('auth.login');
@@ -69,5 +65,40 @@ class UserController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    public function profileUpdate()
+    {
+        return view('user.userPage');
+    }
+
+    public function notification()
+    {
+        $user = auth()->user();
+
+        $datas = Booking::where('user_id', $user->id)->get();
+
+        $bookingDetails = [];
+
+        foreach ($datas as $data) {
+            $currentGroup = $data->user->id . $data->movie->id . $data->room->id . $data->date . $data->time;
+
+            if (!isset($bookingDetails[$currentGroup])) {
+                $bookingDetails[$currentGroup] = [
+                    'user' => $data->user,
+                    'movie' => $data->movie,
+                    'room' => $data->room,
+                    'date' => $data->date,
+                    'time' => $data->time,
+                    'seats' => [],
+                    'totalPrice' => 0,
+                ];
+            }
+
+            $bookingDetails[$currentGroup]['seats'][] = $data->seat->name . $data->seat->count;
+            $bookingDetails[$currentGroup]['totalPrice'] += $data->seat->price;
+        }
+
+        return view('user.notification', compact('bookingDetails'));
     }
 }

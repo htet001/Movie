@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Admin;
-use App\Models\TimeTable;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BookingController;
@@ -12,14 +10,14 @@ use App\Http\Controllers\Admin\SeatController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\MovieController;
 use App\Http\Controllers\Admin\CinemaController;
+use App\Http\Controllers\Admin\PremiumController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\TimeTableController;
 
 Route::get('/', function () {
     return view('home');
 });
-
-// Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [MovieController::class, 'upcoming']);
 
 //User
 Route::get('/register', [UserController::class, 'showRegister']);
@@ -27,32 +25,50 @@ Route::post('/register', [UserController::class, 'register']);
 Route::get('/login', [UserController::class, 'loginShow'])->name('login');
 Route::post('/login', [UserController::class, 'login']);
 Route::get('/logout', [UserController::class, 'logout']);
-Route::get('/user', [UserController::class, 'index']);
 
-//Book
-Route::get('/booking', [BookingController::class, 'booking'])->name('booking');
-Route::get('/bookingSuccess', [BookingController::class, 'bookingSuccess'])->name('bookingSuccess');
-
-//Cinema
-Route::get('/{movieId}/{cinemaId}/choosingRoom', [CinemaController::class, 'choosingRoom'])->name('theaters.choosingRoom');
-
-//Payment
-Route::get('/payment', [PaymentController::class, 'index']);
-
-//Movie
-Route::get('/movie', [MovieController::class, 'index']);
-Route::get('/', [MovieController::class, 'upcoming']);
-Route::get('/movie/detail/{id}', [MovieController::class, 'show']);
 
 Route::get('/admin', [AdminController::class, 'showLogin']);
 Route::post('/admin', [AdminController::class, 'login'])->name('admin.login');
 Route::get('/logout', [AdminController::class, 'logout']);
 
-//Choosing DateTime
-Route::get('{movieId}/{roomId}/choosingDateTime', [TimetableController::class, 'choosingDate'])->name('theaters.choosingDate');
 
-Route::post('{movieId}/{roomId}/choosingDateTime', [TimetableController::class, 'choosingDateTime'])->name('choosingDate');
 
+Route::middleware('auth')->group(function () {
+    Route::get('/userUpdateProfile', [UserController::class, 'profileUpdate'])->name('profileUpdate');
+    //Notification
+    Route::get('/notification', [UserController::class, 'notification'])->name('notification');
+
+    //Book
+    Route::get('/{movieId}/{roomId}/buy', [BookingController::class, 'buy'])->name('buy');
+    Route::post('/{movieId}/{roomId}/buy', [BookingController::class, 'store'])->name('buy');
+
+    Route::get('/{movieId}/{roomId}/book', [BookingController::class, 'book'])->name('booking');
+    Route::post('/{movieId}/{roomId}/book', [BookingController::class, 'bookstore'])->name('booking');
+
+    //Cinema
+    Route::get('/{movieId}/{cinemaId}/choosingRoom', [CinemaController::class, 'choosingRoom'])->name('theaters.choosingRoom');
+
+    //Movie
+    Route::get('/movie', [MovieController::class, 'index']);
+    Route::get('/movie/detail/{id}', [MovieController::class, 'show']);
+
+    //Choosing DateTime
+    Route::get('{movieId}/{roomId}/choosingDateTime', [TimetableController::class, 'choosingDate'])->name('theaters.choosingDate');
+    Route::post('/{movieId}/{roomId}/occupiedSeats', [TimetableController::class, 'getOccupiedSeats']);
+
+    //Checkout stripe
+    Route::post('/checkout', [PaymentController::class, 'createCheckoutSession'])->name('checkout');
+
+    Route::get('/success', [PaymentController::class, 'success'])->name('success');
+
+    //Payment
+    Route::get('/payment', [PaymentController::class, 'index']);
+    Route::post('/payment', [PaymentController::class, 'subscribe'])->name('subscribe');
+
+    //Premium User Movie
+    Route::get('/premium', [PremiumController::class, 'premium'])->name('premium');
+    Route::get('/premiumMovie/detail/{id}', [PremiumController::class, 'show'])->name('premiumMovie.detail');
+});
 
 Route::middleware(['auth', 'admin'])->group(function () {
 
@@ -110,4 +126,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     //Mail
     Route::get('/mail', [MailController::class, 'mail'])->name('mail');
+
+    //Premium
+    Route::get('/premiumMovie/create', [PremiumController::class, 'create'])->name('premiumMovie');
+    Route::post('/premiumMovie/create', [PremiumController::class, 'store'])->name('premiumMovie.create');
+    Route::get('/premiumMovieList', [PremiumController::class, 'premiumMovieList'])->name('premiumMovieList');
+    Route::get('/premiumMovie/edit/{id}', [PremiumController::class, 'edit'])->name('premiumMovie.edit');
+    Route::post('/premiumMovie/update/{id}', [PremiumController::class, 'update'])->name('premiumMovie.update');
+    Route::get('/premiumMovie/delete/{id}', [PremiumController::class, 'delete'])->name('premiumMovie.delete');
 });

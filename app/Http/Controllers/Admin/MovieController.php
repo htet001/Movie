@@ -10,13 +10,15 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\MovieCreateFormRequest;
+use App\Models\Timetable;
 
 class MovieController extends Controller
 {
+    //Moive Tab
     public function index()
     {
         $movies = Movie::where('upcoming', false)->get();
-        return view('admin.movie.index', ['movies' => $movies]);
+        return view('admin.movie.index', compact('movies'));
     }
 
     public function movielist()
@@ -24,15 +26,29 @@ class MovieController extends Controller
         $movies = Movie::select('id', 'name', 'genre', 'image', 'trailer', 'directors', 'actors', 'upcoming', 'slider_image', 'about')
             ->orderBy('id', 'desc')
             ->paginate(3);
-
         return view('admin.movie.movieList', compact('movies'));
     }
 
+    //home
     public function upcoming()
     {
         $movies = Movie::where('upcoming', true)->get();
-
-        return view('home', ['movies' => $movies]);
+        $newMovie = Movie::where('upcoming', false)
+            ->orderBy('id', 'desc')
+            ->take(5)
+            ->get();
+        $nowMovie = Movie::where('upcoming', false)
+            ->inRandomOrder()
+            ->take(8)
+            ->get();
+        $releaseDates = [];
+        foreach ($nowMovie as $movie) {
+            $releaseDate = Timetable::where('movie_id', $movie->id)
+                ->orderBy('start_date')
+                ->value('start_date');
+            $releaseDates[$movie->id] = $releaseDate;
+        }
+        return view('home', compact('movies', 'releaseDates', 'newMovie', 'nowMovie'));
     }
 
     public function create()
@@ -83,20 +99,22 @@ class MovieController extends Controller
     public function show(string $id)
     {
         $movie = Movie::findOrFail($id);
+        $nowMovie = Movie::where('upcoming', false)
+            ->inRandomOrder()
+            ->take(4)
+            ->get();
         $cinemas = Cinema::whereHas('rooms.timeTables', function ($query) use ($id) {
             $query->where('movie_id', $id);
         })->select('id', 'name', 'location', 'image')->get();
-
-        return view('admin.movie.detail', compact('movie', 'cinemas'));
+        $releaseDate = Timetable::select('start_date')->where('movie_id', $id)->get();
+        return view('admin.movie.detail', compact('movie', 'cinemas', 'releaseDate', 'nowMovie'));
     }
 
     public function edit(string $id)
     {
         $movie = Movie::findOrFail($id);
-        return view('admin.movie.edit', [
-            'movie' => $movie,
-            'hobbies' => explode(',', $movie->upcoming)
-        ]);
+        $categories = Category::select('id', 'name')->get();
+        return view('admin.movie.edit', ['movie' => $movie, 'hobbies' => explode(',', $movie->upcoming)], compact('categories'));
     }
 
     public function update(Request $request, string $id)

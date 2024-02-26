@@ -73,13 +73,20 @@
                 </ul>
             </li>
             <li>
-                <a href="javascript: void(0);"><i class="fa-regular fa-ticket"></i></i><span>Ticket</span><span
-                        class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
-            </li>
-            <li>
                 <a href="{{url('/mail')}}"><i data-feather="inbox"
                         class="align-self-center menu-icon"></i><span>Mail</span><span class="menu-arrow"><i
                             class="mdi mdi-chevron-right"></i></span></a>
+            </li>
+            <li>
+                <a href="javascript: void(0);"><i data-feather="box"
+                        class="align-self-center menu-icon"></i><span>Premium Movie</span><span class="menu-arrow"><i
+                            class="mdi mdi-chevron-right"></i></span></a>
+                <ul class="nav-second-level" aria-expanded="false">
+                    <li class="nav-item"><a class="nav-link" href="{{url('premiumMovie/create')}}"><i
+                                class="ti-control-record"></i>Premium Movie Create</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url('premiumMovieList')}}"><i
+                                class="ti-control-record"></i>Premium Movie List</a></li>
+                </ul>
             </li>
         </ul>
     </div>

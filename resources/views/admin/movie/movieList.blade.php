@@ -1,91 +1,7 @@
 @extends('admin.adminLayout.adminMaster')
 @section('title','Admin Dashboard')
 @section('content')
-<style>
-body {
-    font-family: Arial, sans-serif;
-}
-
-table {
-    border-collapse: collapse;
-    width: 100%;
-    margin: 20px auto;
-}
-
-th,
-td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
-}
-
-th {
-    background-color: #f2f2f2;
-}
-
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-#status_edit,
-#showtime,
-#status_delete {
-    margin: auto;
-    border-radius: 5px;
-    color: white;
-    background-color: blue;
-    padding: 5px 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-#showtime {
-    background-color: green;
-}
-
-#status_delete {
-    color: white;
-    background-color: orangered;
-    padding: 5px 10px 5px 10px;
-}
-
-#pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-#pagination .pagination {
-    display: flex;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-#pagination .pagination li {
-    margin: 0 5px;
-}
-
-#pagination .pagination a,
-#pagination .pagination span {
-    display: block;
-    padding: 8px 12px;
-    text-decoration: none;
-    color: #333;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-#pagination .pagination a:hover {
-    background-color: #eee;
-}
-
-#pagination .pagination .active span {
-    background-color: #007bff;
-    color: #fff;
-    border-color: #007bff;
-}
-</style>
-<table>
+<table class="movieListTable">
     @if(session('message'))
     <div class="alert alert-success" id="successMessage">
         {{ session('message') }}
@@ -122,10 +38,10 @@ tr:nth-child(even) {
             <td><img src="{{asset('uploads/'.$movie->slider_image  )}}" alt="Slider_Image" width="100" height="70px">
             </td>
             <td>
-                <div class="d-flex">
+                <div class="MovieListStatus">
                     <a href="{{url('movie/edit/'.$movie->id)}}" id="status_edit">Edit</a>
                     <a href="{{url('movie/delete/'.$movie->id)}}" id="status_delete">Delete</a>
-                    <a href="{{url('/showtime/create/'.$movie->id)}}" id="showtime">Add Show Time</a>
+                    <a href="{{url('/showtime/create/'.$movie->id)}}" id="showtime">Show Time</a>
                 </div>
             </td>
         </tr>

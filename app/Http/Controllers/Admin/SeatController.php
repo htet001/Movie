@@ -26,6 +26,15 @@ class SeatController extends Controller
         $seatName = $request->input('name');
         $price = $request->input('price');
 
+        $name = $request->get('name');
+
+        $existingSeat = Seat::where('name', $name)
+            ->where('room_id', $roomId)
+            ->exists();
+        if ($existingSeat) {
+            return redirect()->back()->with('message', 'Seats with this name already exists in this room.');
+        }
+
         for ($i = 1; $i <= $request->input('count'); $i++) {
             Seat::create([
                 'count' => $i,
@@ -34,19 +43,16 @@ class SeatController extends Controller
                 'price' => $price,
             ]);
         }
-
         return redirect('/seat/' . $roomId);
     }
 
     public function showseat($roomId)
     {
         $room = Room::findOrFail($roomId);
-
         if ($room) {
             $seats = Seat::where('room_id', $roomId)->select('name', 'count', 'price')->get();
             $groupedSeats = $seats->groupBy('name');
             $roomName = $room->name;
-
             return view('admin.seat.showseat', compact('groupedSeats', 'roomName', 'room', 'roomId'));
         }
     }
@@ -59,7 +65,6 @@ class SeatController extends Controller
         ]);
 
         $seatData = $request->only(['seat', 'price']);
-
         foreach ($seatData['seat'] as $name => $count) {
             Seat::where('room_id', $roomId)
                 ->where('name', $name)
@@ -79,7 +84,6 @@ class SeatController extends Controller
                 );
             }
         }
-
         return redirect('/seat/' . $roomId)->with('success', 'Seats updated successfully');
     }
 }

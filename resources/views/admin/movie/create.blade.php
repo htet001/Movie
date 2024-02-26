@@ -10,9 +10,9 @@
                     {{ session('error') }}
                 </div>
                 <script>
-                    setTimeout(function() {
-                        document.getElementById('successMessage').style.display = 'none';
-                    }, 3000);
+                setTimeout(function() {
+                    document.getElementById('successMessage').style.display = 'none';
+                }, 3000);
                 </script>
                 @endif
                 <h2 class="text-center mb-5">Create Movie</h2>
@@ -56,7 +56,8 @@
                         <input type="text" class="form-control" id="actors" name="actors" required>
                     </div>
                     <div class="mb-3 d-flex align-items-center">
-                        <input type="checkbox" id="upcoming" name="upcoming" value="1" style="width: 3%; margin-right:20px;">
+                        <input type="checkbox" id="upcoming" name="upcoming" value="1"
+                            style="width: 3%; margin-right:20px;">
                         <label for="upcoming" class="form-label" style="padding-top: 8px;">Upcoming</label>
                     </div>
                     <div class="mb-3">
@@ -68,7 +69,6 @@
                         <textarea class="form-control" id="about" rows="7" name="about" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary" id="createMovieButton">Create</button>
-                    <button type="submit" class="btn btn-secondary" id="createMovieButton">Cancel</button>
                 </form>
             </div>
         </div>

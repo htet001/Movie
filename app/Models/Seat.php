@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Room;
+use App\Models\Booking;
+use App\Models\SeatTimetable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Seat extends Model
 {
@@ -15,9 +18,25 @@ class Seat extends Model
         return $this->belongsTo(Room::class);
     }
 
-    public function isOccupied()
+    public function seatTimetables()
     {
-        $occupied = SeatTimetable::where('seat_id', $this->id)->exists();
-        return $occupied;
+        return $this->hasMany(SeatTimetable::class, 'seat_id', 'id');
+    }
+
+    public function isOccupied($date, $time)
+    {
+        // $occupiedSeatTimetable = SeatTimetable::where('seat_id', $this->id)
+        //     ->where('date', $date)
+        //     ->where('time', $time)
+        //     ->exists();
+
+        // $occupiedBooking = Booking::where('seat_id', $this->id)
+        //     ->where('date', $date)
+        //     ->where('time', $time)
+        //     ->exists();
+
+        // $occupied = $occupiedSeatTimetable || $occupiedBooking;
+
+        // return $occupied;
     }
 }

@@ -1,0 +1,380 @@
+/* Admin MovieList Start */
+.movieListTable {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px auto;
+}
+
+.movieListTable>thead>tr>th,
+.movieListTable>tbody>tr>td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.movieListTable>thead>tr>th {
+    background-color: #f2f2f2;
+}
+
+.movieListTable>thead>tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.movieListTable>tbody>tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#status_edit,
+#showtime,
+#status_delete {
+    margin-top: 5px;
+    width: 100%;
+    border-radius: 5px;
+    color: black;
+    padding: 5px 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+#status_edit {
+    border: 1px solid #007bff;
+}
+
+#status_edit:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+#status_delete {
+    border: 1px solid orangered;
+}
+
+#status_delete:hover {
+    background-color: orangered;
+    color: white;
+}
+
+#showtime {
+    border: 1px solid green;
+}
+
+#showtime:hover {
+    background-color: green;
+    color: white;
+}
+
+#pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#pagination .pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#pagination .pagination li {
+    margin: 0 5px;
+}
+
+#pagination .pagination a,
+#pagination .pagination span {
+    display: block;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#pagination .pagination a:hover {
+    background-color: #eee;
+}
+
+#pagination .pagination .active span {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+.MovieListStatus {
+    display: flex;
+    flex-direction: column;
+}
+/* Admin Movie End */
+
+/* Admin Cinema Start */
+.cinemaListTable {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px auto;
+}
+
+.cinemaListTable>thead>tr>th,
+.cinemaListTable>tbody>tr>td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.cinemaListTable>thead>tr>th {
+    background-color: #f2f2f2;
+}
+
+#cinema_edit,
+#cinema_delete,
+#view {
+    border-radius: 5px;
+    border: 1px solid blue;
+    color: black;
+    padding: 5px 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    margin-left: 10px;
+}
+
+#view {
+    border: 1px solid green;
+}
+
+#cinema_delete {
+    color: black;
+    border: 1px solid orangered;
+    padding: 5px 10px 5px 10px;
+}
+
+#cinema_edit:hover {
+    color: white;
+    background-color: blue;
+}
+
+#view:hover {
+    color: white;
+    background-color: green;
+}
+
+#cinema_delete:hover {
+    color: white;
+    background-color: orangered;
+}
+/* Admin Cinema End */
+
+/* Admin Room Start */
+.roomListTable {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px auto;
+}
+
+.roomListTable>thead>tr>th,
+.roomListTable>tbody>tr>td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.roomListTable>thead>tr>th {
+    background-color: #f2f2f2;
+}
+
+#room_edit,
+#room_delete,
+#seat {
+    border-radius: 5px;
+    color: black;
+    border: 1px solid blue;
+    padding: 5px 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+#room_delete {
+    border: 1px solid orangered;
+    padding: 5px 10px 5px 10px;
+    margin-left: 10px;
+}
+
+#seat {
+    border: 1px solid green;
+    margin-right: 10px;
+}
+
+#room_edit:hover {
+    color: white;
+    background-color: blue;
+}
+
+#room_delete:hover {
+    color: white;
+    background-color: orangered;
+}
+
+#seat:hover {
+    color: white;
+    background-color: green;
+}
+/* Admin Room End */
+
+/* Admin Category Start */
+.categoryTable {
+    border-collapse: collapse;
+    width: 70%;
+    margin: 20px auto;
+}
+
+.categoryTable>thead>tr>th,
+.categoryTable>tbody>tr>td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.categoryTable>thead>tr>th {
+    background-color: #f2f2f2;
+}
+
+.categoryTable>thead>tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.categoryTable>tbody>tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#category_edit,
+#category_delete {
+    margin: auto;
+    border-radius: 5px;
+    border: 1px solid blue; 
+    color: black;
+    padding: 5px 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+#category_delete{
+    border: 1px solid orangered;  
+}
+
+#category_edit:hover {
+    background-color: blue;
+    color: white;
+}
+
+#category_delete:hover {
+    background-color: orangered;
+    color: white;
+}
+
+/* Admin Category End */
+
+/* Cinem Create Form Start */
+#cinemaContainer {
+    max-width: 80%;
+    margin: auto;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#cinemaForm {
+    color: #333;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+#cinemaImage {
+    width: 50%;
+}
+/* Cinema Create Form End */
+
+/* View Rooms Start */
+#viewTable {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px auto;
+}
+
+#viewTable>thead>tr>th,
+#viewTable>tbody>tr>td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+#viewTable>thead>tr>th {
+    background-color: #f2f2f2;
+}
+
+#viewTable>thead>tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#view_edit,
+#view_delete {
+    margin-right: 15px;
+    border-radius: 5px;
+    color: black;
+    padding: 5px 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+#view_edit{
+    border: 1px solid blue;
+}
+
+#view_delete{
+    border: 1px solid orangered;
+}
+
+#view_edit:hover{
+    background-color: blue;
+}
+
+#view_delete:hover{
+    background-color: orangered; 
+}
+/* View Rooms End */
+
+/* Room Create Form Start */
+#roomContainer {
+    max-width: 80%;
+    margin: auto;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#roomTitle {
+    color: #333;
+}
+
+#roomImage {
+    margin: 0;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+#roomCol {
+    width: 50%;
+}
+/* Room Create Form End */
+
+

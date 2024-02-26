@@ -3,8 +3,11 @@
 namespace App\Http;
 
 use App\Http\Middleware\Admin;
-use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Commands\DeleteBookingData;
 use Illuminate\Support\Facades\App;
+use Illuminate\Console\Scheduling\Schedule;
+use App\Console\Commands\ClearExpiredBookings;
+use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
 {

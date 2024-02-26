@@ -7,13 +7,19 @@ use App\Models\Movie;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use App\Models\Booking;
+use App\Models\SeatTimetable;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
     public function index()
     {
-        return view('admin.dashboard');
+        $movies = Movie::count();
+        $users = User::count();
+        $tickets = SeatTimetable::count();
+        $bookings = Booking::count();
+        return view('admin.dashboard', compact('movies', 'users', 'tickets', 'bookings'));
     }
 
     public function profile()
@@ -57,30 +63,5 @@ class AdminController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show(string $id)
-    {
-        //
-    }
-
-    public function edit(string $id)
-    {
-        //
-    }
-
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    public function destroy(string $id)
-    {
-        //
     }
 }
