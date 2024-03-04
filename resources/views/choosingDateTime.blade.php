@@ -181,7 +181,6 @@
                 const selectedDate =
                     `${selectedDateElement.children[1].textContent}-${selectedDateElement.children[2].textContent}-${selectedDateElement.children[0].textContent}`;
 
-
                 selectedTime = timeElement.querySelector('.time').textContent;
 
                 const timeList = document.querySelector('#seatselect');
@@ -320,14 +319,12 @@
                 data: JSON.stringify(data),
                 success: function(response) {
                     console.log('Occupied seats received from server:', response);
-                    if (response.occupiedSeats.length > 0) {
-                        displayOccupiedSeats(response.occupiedSeats);
-                    } else if (response.occupiedBookingSeats.length > 0) {
-                        displayOccupiedSeats(response.occupiedBookingSeats);
+                    const allOccupiedSeats = [...response.occupiedSeats, ...response.occupiedBookingSeats];
+                    if (allOccupiedSeats.length > 0) {
+                        displayOccupiedSeats(allOccupiedSeats);
                     } else {
                         resetSeatDisplay();
                     }
-
                 },
                 error: function(error) {
                     console.error('Error fetching occupied seats:', error);

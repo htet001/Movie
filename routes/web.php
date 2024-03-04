@@ -115,7 +115,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/showtime/create/{id}', [TimetableController::class, 'create'])->name('showtime.create');
     Route::get('/timetablelist', [TimeTableController::class, 'timetablelist'])->name('timetablelist');
     Route::get('/timetable/{id}/edit', [TimeTableController::class, 'edit'])->name('timetable.edit');
-    Route::post('/timetable/{id}/update', [TimeTableController::class, 'update'])->name('timetable.update');
+    Route::post('/timetable/{id}/{movieId}/update', [TimeTableController::class, 'update'])->name('timetable.update');
     Route::get('/timetable/{id}/delete', [TimeTableController::class, 'delete'])->name('timetable.delete');
 
     //Seats

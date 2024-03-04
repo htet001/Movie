@@ -33,37 +33,44 @@ class TimetableController extends Controller
             ]);
 
             $times = $request->input('time');
-            $startTime = min($times);
-            $endTime = max($times);
+            $startDate = $request->input('start_date');
+            $endDate = $request->input('end_date');
+            $roomId = $request->input('room_id');
 
-            $existingShowtime = Timetable::where('movie_id', $movieId)
-                ->where('room_id', $request->input('room_id'))
-                ->where(function ($query) use ($startTime, $endTime) {
-                    $query->where(function ($q) use ($startTime, $endTime) {
-                        $q->where('start_time', '>=', $startTime)
-                            ->where('start_time', '<', $endTime);
-                    })->orWhere(function ($q) use ($startTime, $endTime) {
-                        $q->where('end_time', '>', $startTime)
-                            ->where('end_time', '<=', $endTime);
-                    });
-                })
-                ->exists();
+            $movie = Movie::findOrFail($movieId);
+            $movieTimeConstraints = unserialize($movie->time_constraints);
 
-            if ($existingShowtime) {
-                return back()->withInput()->withErrors(['room_id' => 'Another movie is already scheduled in the selected room at this time.']);
+            if (!empty($movieTimeConstraints)) {
+                foreach ($times as $requestedTime) {
+                    if (!in_array($requestedTime, $movieTimeConstraints)) {
+                        return back()->withInput()->withErrors(['error' => 'The requested time is not valid for movie ' . $movie->name . '.']);
+                    }
+                }
+            }
+
+            foreach ($times as $requestedTime) {
+                $existingTimetableEntry = Timetable::where('room_id', $roomId)
+                    ->where('start_date', '>=', $startDate)
+                    ->where('end_date', '<=', $endDate)
+                    ->where('time', 'LIKE', '%' . $requestedTime . '%')
+                    ->where('movie_id', '!=', $movieId)
+                    ->exists();
+                if ($existingTimetableEntry) {
+                    return back()->withInput()->withErrors(['error' => 'The requested time is already booked.']);
+                }
             }
 
             $showtime = new Timetable();
             $showtime->movie_id = $movieId;
-            $showtime->room_id = $request->input('room_id');
-            $showtime->start_date = $request->input('start_date');
-            $showtime->end_date = $request->input('end_date');
-            $showtime->time = serialize($request->input('time'));
+            $showtime->room_id = $roomId;
+            $showtime->start_date = $startDate;
+            $showtime->end_date = $endDate;
+            $showtime->time = serialize($times);
             $showtime->save();
 
             return redirect()->route('timetablelist');
         } catch (\Exception $e) {
-            return back()->withInput()->withErrors(['error' => 'An error occurred while saving the timetable entry.']);
+            return back()->withInput()->withErrors(['error' => 'Something went wrong. Please try again.']);
         }
     }
 
@@ -85,9 +92,10 @@ class TimetableController extends Controller
         return view('admin.time.timetableEdit', compact('rooms', 'movie', 'timetable'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, $movieId)
     {
         try {
+            $timetable = Timetable::findOrFail($id);
             $request->validate([
                 'room_id' => 'required',
                 'start_date' => 'required|date',
@@ -96,30 +104,44 @@ class TimetableController extends Controller
                 'time.*' => 'required',
             ]);
 
-            $timetable = Timetable::findOrFail($id);
+            $times = $request->input('time');
+            $startDate = $request->input('start_date');
+            $endDate = $request->input('end_date');
+            $roomId = $request->input('room_id');
 
-            $existingShowtime = Timetable::where('room_id', $request->input('room_id'))
-                ->where('movie_id', $timetable->movie_id)
-                ->where(function ($query) use ($request) {
-                    $query->whereBetween('start_date', [$request->input('start_date'), $request->input('end_date')])
-                        ->orWhereBetween('end_date', [$request->input('start_date'), $request->input('end_date')]);
-                })
-                ->where('id', '<>', $id)
-                ->exists();
+            $movie = Movie::findOrFail($movieId);
+            $movieTimeConstraints = unserialize($movie->time_constraints);
 
-            if ($existingShowtime) {
-                return back()->withInput()->withErrors(['room_id' => 'This movie is already scheduled in the selected room during the specified time.']);
+            if (!empty($movieTimeConstraints)) {
+                foreach ($times as $requestedTime) {
+                    if (!in_array($requestedTime, $movieTimeConstraints)) {
+                        return back()->withInput()->withErrors(['error' => 'The requested time is not valid for movie ' . $movie->name . '.']);
+                    }
+                }
             }
 
-            $timetable->room_id = $request->input('room_id');
-            $timetable->start_date = $request->input('start_date');
-            $timetable->end_date = $request->input('end_date');
-            $timetable->time = serialize($request->input('time'));
+            foreach ($times as $requestedTime) {
+                $existingTimetableEntry = Timetable::where('room_id', $roomId)
+                    ->where('start_date', '>=', $startDate)
+                    ->where('end_date', '<=', $endDate)
+                    ->where('time', 'LIKE', '%' . $requestedTime . '%')
+                    ->where('movie_id', '!=', $movieId)
+                    ->exists();
+                if ($existingTimetableEntry) {
+                    return back()->withInput()->withErrors(['error' => 'The requested time is already booked.']);
+                }
+            }
+
+            $timetable->movie_id = $movieId;
+            $timetable->room_id = $roomId;
+            $timetable->start_date = $startDate;
+            $timetable->end_date = $endDate;
+            $timetable->time = serialize($times);
             $timetable->save();
 
-            return redirect()->route('timetablelist')->with('success', 'Timetable updated successfully');
+            return redirect()->route('timetablelist');
         } catch (\Exception $e) {
-            return back()->withInput()->withErrors(['error' => 'An error occurred while updating the timetable entry.']);
+            return back()->withInput()->withErrors(['error' => 'Something went wrong. Please try again.']);
         }
     }
 

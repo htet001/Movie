@@ -21,7 +21,8 @@
                                 <label for="movieType" class="form-label">Genre</label>
                                 <select class="form-select" id="genre" name="genre" required>
                                     @foreach($categories as $category)
-                                    <option>{{$category->name}}</option>
+                                    <option @if($movie->genre == $category->name) selected @endif>{{$category->name}}
+                                    </option>
                                     @endforeach
                                 </select>
                             </div>

@@ -9,6 +9,7 @@
 
 .card {
     margin-top: 20px;
+    margin-bottom: 40px;
     border: 1px solid #ddd;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -57,7 +58,6 @@
         <div class="card-header">
             <h2>Booking Details</h2>
         </div>
-
         <div class="card-body">
             @if(empty($bookingDetails))
             <p class="no-details">No booking details available.</p>

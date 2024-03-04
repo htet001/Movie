@@ -15,6 +15,10 @@
                 <h2 style="text-align: left;">
                     <a class="mb-5"><span>{{$movie->name}}</span></a>
                 </h2>
+                <div class="slide-release">
+                    From <span>
+                        Apr 29 </span>
+                </div>
                 <div class="slide-button">
                     <a href="{{$movie->trailer}}" class="fancybox.iframe amy-fancybox">
                         <i aria-hidden="true" class="fa fa-play"></i>

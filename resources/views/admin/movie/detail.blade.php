@@ -99,8 +99,11 @@
                                 <h4 class="amy-title amy-widget-title">Suggest Movie</h4>
                                 @foreach($nowMovie as $movie)
                                 <div class="entry-item">
-                                    <div class="entry-thumb"><img class="" src="{{asset('/uploads/'. $movie->image)}}"
-                                            alt="Kubo and the Two Strings" style="width: 120px;height: 170px" />
+                                    <div class="entry-thumb">
+                                        <a href="{{ url('movie/detail/'.$movie->id) }}">
+                                            <img src="{{ asset('/uploads/' . $movie->image) }}" alt="{{ $movie->name }}"
+                                                style="width: 120px; height: 170px;">
+                                        </a>
                                     </div>
                                     <div class="entry-content">
                                         <h2 class="entry-title">

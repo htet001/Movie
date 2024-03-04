@@ -14,7 +14,7 @@
                 <div class="amy-left">
                     <div id="amy-site-logo">
                         <a href="/">
-                            <img src="{{ asset('images/logo1.png') }}" alt="Junction City" id="logo">
+                            <img src="{{ asset('images/movie.png') }}" alt="Movie Vibe" id="logo">
                         </a>
                     </div>
                 </div>

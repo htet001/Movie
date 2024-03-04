@@ -35,17 +35,20 @@ class PaymentController extends Controller
     public function createCheckoutSession(Request $request)
     {
         $userId = Auth::id();
+        // $userSelectedSeats = SeatTimetable::where('user_id', $userId)
+        //     ->where('movie_id', $movie_id)
+        //     ->where('room_id', $roomId)
+        //     ->where('date', $selectedDate)
+        //     ->where('time', $selectedTime)
+        //     ->pluck('seat_id');
         $userSelectedSeats = SeatTimetable::where('user_id', $userId)
             ->with('seat')
             ->get();
-
         $totalPrice = $userSelectedSeats->sum(function ($seatTimetable) {
             return $seatTimetable->seat->price;
         });
         $amount = $totalPrice * 100;
-
         $stripe = new \Stripe\StripeClient('sk_test_51O6oVWEBeZfFRhurWfEc9idLLEP6pHHOyqLf78SJOiChvXpy9yoKzzFXXUmfTl06qNSGcike4ww7YStNRlnOewU600nsolDbtH');
-
         $checkoutSession = $stripe->checkout->sessions->create([
             'payment_method_types' => ['card'],
             'line_items' => [[

@@ -25,18 +25,18 @@ class Seat extends Model
 
     public function isOccupied($date, $time)
     {
-        // $occupiedSeatTimetable = SeatTimetable::where('seat_id', $this->id)
-        //     ->where('date', $date)
-        //     ->where('time', $time)
-        //     ->exists();
+        $occupiedSeatTimetable = SeatTimetable::where('seat_id', $this->id)
+            ->where('date', $date)
+            ->where('time', $time)
+            ->exists();
 
-        // $occupiedBooking = Booking::where('seat_id', $this->id)
-        //     ->where('date', $date)
-        //     ->where('time', $time)
-        //     ->exists();
+        $occupiedBooking = Booking::where('seat_id', $this->id)
+            ->where('date', $date)
+            ->where('time', $time)
+            ->exists();
 
-        // $occupied = $occupiedSeatTimetable || $occupiedBooking;
+        $occupied = $occupiedSeatTimetable || $occupiedBooking;
 
-        // return $occupied;
+        return $occupied;
     }
 }

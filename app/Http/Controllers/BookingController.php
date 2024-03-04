@@ -16,14 +16,13 @@ class BookingController extends Controller
     {
         $movie = Movie::findOrFail($movieId);
         $room = Room::findOrFail($roomId);
-        return view('buy',  compact('movie', 'room', 'movieId', 'roomId'));
+        return view('buy', compact('movie', 'room', 'movieId', 'roomId'));
     }
 
     public function book(Request $request, $movieId, $roomId)
     {
         $movie = Movie::findOrFail($movieId);
         $room = Room::findOrFail($roomId);
-
         return view('book', compact('movie', 'room', 'movieId', 'roomId'));
     }
 
@@ -59,7 +58,6 @@ class BookingController extends Controller
                 BookingMail::dispatch($booking);
             }
         }
-
         return response()->json(['message' => 'Booking successful'], 200);
     }
 

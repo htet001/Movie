@@ -1,33 +1,6 @@
 @extends('layout.master')
 @section('title','Booking')
 @section('content')
-<style>
-#booking {
-    max-width: 50%;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
-    color: orange;
-    text-align: left;
-}
-
-h5 {
-    text-align: left;
-}
-
-#buyTicket {
-    width: 30%;
-    background-color: tomato;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 15px;
-    cursor: pointer;
-}
-</style>
 <form id="checkoutForm" action="{{ route('checkout') }}" method="POST">
     @csrf
     <div class="container my-5" id="booking">
@@ -96,5 +69,4 @@ document.getElementById('buyTicket').addEventListener('click', function() {
     bookSeats();
 });
 </script>
-
 @endsection

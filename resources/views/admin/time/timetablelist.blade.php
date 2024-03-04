@@ -2,53 +2,53 @@
 @section('title','TimeTable List')
 @section('content')
 <style>
-    body {
-        font-family: Arial, sans-serif;
-    }
+body {
+    font-family: Arial, sans-serif;
+}
 
-    table {
-        border-collapse: collapse;
-        width: 100%;
-        margin: 20px auto;
-    }
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px auto;
+}
 
-    th,
-    td {
-        border: 1px solid #ddd;
-        padding: 10px;
-        text-align: center;
-    }
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
 
-    th {
-        background-color: #f2f2f2;
-    }
+th {
+    background-color: #f2f2f2;
+}
 
-    tr:nth-child(even) {
-        background-color: #f9f9f9;
-    }
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
 
-    .edit,
-    .delete {
-        border: 2px solid green;
-        background: none;
-        padding: 3px 10px;
-        border-radius: 5px;
-    }
+.edit,
+.delete {
+    border: 2px solid green;
+    background: none;
+    padding: 3px 10px;
+    border-radius: 5px;
+}
 
-    .delete {
-        margin-left: 10px;
-        border: 2px solid tomato;
-    }
+.delete {
+    margin-left: 10px;
+    border: 2px solid tomato;
+}
 
-    .edit:hover {
-        background-color: green;
-        color: white;
-    }
+.edit:hover {
+    background-color: green;
+    color: white;
+}
 
-    .delete:hover {
-        background-color: tomato;
-        color: white;
-    }
+.delete:hover {
+    background-color: tomato;
+    color: white;
+}
 </style>
 <table>
     @if(session('message'))
@@ -70,7 +70,6 @@
         <tr>
             <th>ID</th>
             <th>Movie name</th>
-            <th>Cinema</th>
             <th>Room</th>
             <th>Start date</th>
             <th>End Date</th>
@@ -94,7 +93,6 @@
         <tr>
             <td>{{$timetable->id}}</td>
             <td>{{$timetable->movie->name}}</td>
-            <td>{{$timetable->room->cinema->name}}</td>
             <td>{{$timetable->room->name}}</td>
             <td>{{$timetable->start_date}}</td>
             <td>{{$timetable->end_date}}</td>

@@ -20,7 +20,7 @@
                     <label for="theater_id" class="form-label">Cinema Name</label>
                     <select class="form-select" id="theater_id" name="theater_id" required>
                         @foreach($theaters as $theater)
-                        <option value="{{ $theater->id }}">{{ $theater->name }}</option>
+                        <option selected value="{{ $theater->id }}">{{ $theater->name }}</option>
                         @endforeach
                     </select>
                 </div>

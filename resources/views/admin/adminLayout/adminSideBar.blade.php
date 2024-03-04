@@ -2,10 +2,8 @@
 <div class="left-sidenav">
     <!-- LOGO -->
     <div class="brand">
-        <a href="/" class="logo">
-            <span>
-                <h3>MOVIE VIBE</h3>
-            </span>
+        <a href="/">
+            <img src="{{ asset('images/movie.png') }}" alt="Movie Vibe" style="width: 200px;height: 60px">
         </a>
     </div>
     <!--end logo-->

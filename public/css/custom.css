@@ -1,6 +1,7 @@
 #logo{
-    width: 100px;
-    height: 80px;
+    width: 250px;
+    height: 60px;
+    margin-bottom: 11px;
 }
 #topRated{
     margin-right: 30px;
@@ -407,6 +408,7 @@ button.pay-button:hover {
 #seatContainer {
     perspective: 1000px;
     margin: 20px 0;
+    padding-bottom: 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -551,3 +553,32 @@ p.text span {
     background-color: #007bff;
 }
 /* Choosing DateTime End */
+
+/* BUY */
+#booking {
+    padding: 30px 0px;
+    max-width: 50%;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#buyTitle {
+    color: orange;
+    text-align: left;
+}
+
+.movieData {
+    text-align: left;
+}
+
+#buyTicket,#bookTicket {
+    width: 30%;
+    background-color: tomato;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+/* BUY */
